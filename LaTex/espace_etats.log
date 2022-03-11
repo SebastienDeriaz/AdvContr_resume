@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7250 64-bit) (preloaded format=pdflatex 2020.5.15)  8 MAR 2022 07:42
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7250 64-bit) (preloaded format=pdflatex 2020.5.15)  10 MAR 2022 21:27
 entering extended mode
 **./espace_etats.tex
 (espace_etats.tex
@@ -748,59 +748,71 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 11.
 fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-<drwg_0.pdf, id=2, page=2, 138.52954pt x 17.06577pt>
-File: drwg_0.pdf Graphic file (type pdf)
-<use drwg_0.pdf, page 2>
-Package pdftex.def Info: drwg_0.pdf , page2 used on input line 25.
-(pdftex.def)             Requested size: 138.52919pt x 17.0657pt.
+<drwg_1.pdf, id=2, page=1, 208.49092pt x 106.39148pt>
+File: drwg_1.pdf Graphic file (type pdf)
+<use drwg_1.pdf, page 1>
+Package pdftex.def Info: drwg_1.pdf , page1 used on input line 22.
+(pdftex.def)             Requested size: 208.4904pt x 106.39122pt.
+<drwg_1.pdf, id=3, page=2, 208.65956pt x 106.39148pt>
+File: drwg_1.pdf Graphic file (type pdf)
+<use drwg_1.pdf, page 2>
+Package pdftex.def Info: drwg_1.pdf , page2 used on input line 23.
+(pdftex.def)             Requested size: 208.65904pt x 106.39122pt.
  [1
 
 {C:/Users/Sebastien/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <./drwg_
 0.pdf>]
-<drwg_0.pdf, id=53, page=3, 138.52954pt x 73.97136pt>
+<drwg_0.pdf, id=54, page=2, 138.52954pt x 17.06577pt>
+File: drwg_0.pdf Graphic file (type pdf)
+<use drwg_0.pdf, page 2>
+Package pdftex.def Info: drwg_0.pdf , page2 used on input line 29.
+(pdftex.def)             Requested size: 138.52919pt x 17.0657pt.
+<drwg_0.pdf, id=55, page=3, 138.52954pt x 73.97136pt>
 File: drwg_0.pdf Graphic file (type pdf)
 <use drwg_0.pdf, page 3>
-Package pdftex.def Info: drwg_0.pdf , page3 used on input line 40.
+Package pdftex.def Info: drwg_0.pdf , page3 used on input line 44.
 (pdftex.def)             Requested size: 138.52919pt x 73.97118pt.
-<drwg_0.pdf, id=54, page=4, 138.52954pt x 48.0184pt>
+ [2 <./drwg_1.pdf> <./drwg_1.pdf> <./drwg_0.pdf> <./drwg_0.pdf>]
+<drwg_0.pdf, id=108, page=4, 138.52954pt x 48.0184pt>
 File: drwg_0.pdf Graphic file (type pdf)
 <use drwg_0.pdf, page 4>
-Package pdftex.def Info: drwg_0.pdf , page4 used on input line 54.
+Package pdftex.def Info: drwg_0.pdf , page4 used on input line 58.
 (pdftex.def)             Requested size: 138.52919pt x 48.01826pt.
-<drwg_0.pdf, id=55, page=5, 195.43413pt x 39.68526pt>
+<drwg_0.pdf, id=109, page=5, 195.43413pt x 39.68526pt>
 File: drwg_0.pdf Graphic file (type pdf)
 <use drwg_0.pdf, page 5>
-Package pdftex.def Info: drwg_0.pdf , page5 used on input line 63.
+Package pdftex.def Info: drwg_0.pdf , page5 used on input line 67.
 (pdftex.def)             Requested size: 195.43364pt x 39.68515pt.
- [2 <./drwg_0.pdf> <./drwg_0.pdf> <./drwg_0.pdf>] [3 <./drwg_0.pdf>] (espace_et
-ats.aux) ) 
+
+[3 <./drwg_0.pdf> <./drwg_0.pdf>] (espace_etats.aux) ) 
 Here is how much of TeX's memory you used:
- 15824 strings out of 492449
- 287087 string characters out of 3118125
+ 15833 strings out of 492449
+ 287281 string characters out of 3118125
  256353335 words of memory out of 259000000
- 20055 multiletter control sequences out of 15000+200000
+ 20063 multiletter control sequences out of 15000+200000
  539902 words of font info for 54 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  63i,12n,77p,480b,317s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Users/Sebastien/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pub
-lic/amsfonts/cm/cmbx10.pfb><C:/Users/Sebastien/AppData/Local/Programs/MiKTeX 2.
-9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Sebastien/AppData/Local/P
-rograms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Sebastie
-n/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
-C:/Users/Sebastien/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfont
-s/cm/cmmi12.pfb><C:/Users/Sebastien/AppData/Local/Programs/MiKTeX 2.9/fonts/typ
-e1/public/amsfonts/cm/cmmi7.pfb><C:/Users/Sebastien/AppData/Local/Programs/MiKT
-eX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Sebastien/AppData/Loc
-al/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Sebas
-tien/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr5.pfb>
-<C:/Users/Sebastien/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfon
-ts/cm/cmr7.pfb><C:/Users/Sebastien/AppData/Local/Programs/MiKTeX 2.9/fonts/type
-1/public/amsfonts/cm/cmr8.pfb><C:/Users/Sebastien/AppData/Local/Programs/MiKTeX
- 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Sebastien/AppData/Loca
-l/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
-Output written on espace_etats.pdf (3 pages, 148379 bytes).
+<C:/Users/Sebastien/AppDa
+ta/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/User
+s/Sebastien/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cm
+bx12.pfb><C:/Users/Sebastien/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/publ
+ic/amsfonts/cm/cmex10.pfb><C:/Users/Sebastien/AppData/Local/Programs/MiKTeX 2.9
+/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Sebastien/AppData/Local/Pr
+ograms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/Sebastien
+/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:
+/Users/Sebastien/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/
+cm/cmr10.pfb><C:/Users/Sebastien/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/
+public/amsfonts/cm/cmr12.pfb><C:/Users/Sebastien/AppData/Local/Programs/MiKTeX 
+2.9/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/Sebastien/AppData/Local/P
+rograms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/Sebastien/
+AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/U
+sers/Sebastien/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
+/cmsy10.pfb><C:/Users/Sebastien/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/p
+ublic/amsfonts/cm/cmsy7.pfb>
+Output written on espace_etats.pdf (3 pages, 165268 bytes).
 PDF statistics:
- 111 PDF objects out of 1000 (max. 8388607)
+ 162 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 26 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 36 words of extra memory for PDF output out of 10000 (max. 10000000)
 
