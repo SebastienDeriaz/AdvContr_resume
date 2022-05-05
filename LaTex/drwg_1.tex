@@ -17,6 +17,7 @@
 \coordinate (Z) at (1,2);
 \coordinate (W) at (5,2);
 \coordinate (Y) at (5.5,0);
+\coordinate (K) at (3,-1);
 
 \node (Z1) at (Z) {$\boxed{d + \frac{b\cdot c}{s-a}}$};
 \node (W1) at (W) {$\boxed{\begin{aligned}A&=\begin{bmatrix}a\end{bmatrix} & B&=\begin{bmatrix}b\end{bmatrix}\\C&=\begin{bmatrix}c\end{bmatrix} & D&=\begin{bmatrix}d\end{bmatrix}\end{aligned}}$};
@@ -30,8 +31,9 @@
 \node[rectangle,draw] (C1) at (C) {\Large $\int$};
 \node[rectangle,draw] (E1) at (E) {$a$};
 \node (F1) at (F) {$y(t)$};
+\node[rectangle,draw] (K1) at (K) {$d$};
 \draw[->] (A1) -- (G1) coordinate[midway] (I);
-\draw[->] (I) --++(0,-1) -| (X1) node[pos=1,anchor=north west, inner sep=1pt] {\tiny $+$};;
+\draw[->] (I) --++(0,-1) --(K1) -| (X1) node[pos=1,anchor=north west, inner sep=1pt] {\tiny $+$};;
 \draw[->] (G1) -- (B1) node[pos=1,anchor=south east, inner sep=1pt] {\tiny $+$};
 \draw[->] (B1) -- (C1);
 \draw[->] (E1) -| (B1) node[pos=1,anchor=south west, inner sep=1pt] {\tiny $+$};
@@ -54,6 +56,7 @@
 \coordinate (Z) at (1,2);
 \coordinate (W) at (5,2);
 \coordinate (Y) at (5.5,0);
+\coordinate (K) at (3,-1);
 
 \node (Z1) at (Z) {$\boxed{d + \frac{b\cdot c}{z-a}}$};
 \node (W1) at (W) {$\boxed{\begin{aligned}A_n&=\begin{bmatrix}a\end{bmatrix} & B_n&=\begin{bmatrix}b\end{bmatrix}\\C_n&=\begin{bmatrix}c\end{bmatrix} & D_n&=\begin{bmatrix}d\end{bmatrix}\end{aligned}}$};
@@ -66,10 +69,11 @@
 \node[rectangle,draw] (C1) at (C) {\Large $z^{-1}$};
 \node[rectangle,draw] (E1) at (E) {$a$};
 \node (F1) at (F) {$y[n]$};
+\node[rectangle,draw] (K1) at (K) {$d$};
 
 
 \draw[->] (A1) -- (G1) coordinate[midway] (I);
-\draw[->] (I) --++(0,-1) -| (X1) node[pos=1,anchor=north west, inner sep=1pt] {\tiny $+$};;
+\draw[->] (I) --++(0,-1) --(K1)  -| (X1) node[pos=1,anchor=north west, inner sep=1pt] {\tiny $+$};;
 \draw[->] (G1) -- (B1) node[pos=1,anchor=south east, inner sep=1pt] {\tiny $+$};
 \draw[->] (B1) -- (C1);
 \draw[->] (E1) -| (B1) node[pos=1,anchor=south west, inner sep=1pt] {\tiny $+$};
