@@ -11,4 +11,32 @@ $$G_{I}(s)=\frac{h}{z-1}$$
 \subsection{PID}
 En temps discret et avec méthode de la sécante et des rectangles
 $$y[k]=K_p\left(\Pcolor{e[k]}+\Icolor{\frac{1}{T_i}h\sum_{l=0}^{k-1}e[l]}+\Dcolor{T_d\frac{e[k]-e[k-1]}{h}}\right)$$
+
+\subsection{LQR (forme quadratique)}
+$$Q(x_1,...,x_n) = \sum_{i=1}^{n}\sum_{j=1}^{n}m_{ij}\cdot x_i\cdot x_j = \vec{x}^T\cdot M\cdot \vec{x}$$
+$$M = 
+\begin{bmatrix}
+M_{11} & M_{12}\\
+M_{12} & M_{22}
+\end{bmatrix}\\$$
+$$x^T\cdot M\cdot x = M_{11}x_1^2+2M_{12}x_1x_2+M_{22}x_2^2$$
+
+\subsubsection{fonction de coût à minimiser}
+$$J = \int_0^{\infty}(x^TQx + u^TRu)dt$$
+Avec $Q\geq0$ et $R > 0$  / Taille matrice Q = A, R nombre de signaux entrée
+\subsubsection{Solution LQR analogique (Riccati)}
+
+$$
+K = R^{-1}B^TP$$
+$$A^TP + PA-PBR^{-1}B^TP = -Q \space\space\space$$
+
+\subsubsection{Solution LQR discreet}
+
+$$
+K = (R+B^TPB)^{-1}B^TPA$$
+$$A^TPA-P-A^TPB(R+B^TPB)^{-1}B^TPA+Q=0\space\space\space$$
+
+\subsubsection{Choix de Q}
+Si on veut pénalisé que la sortie. On a $Q = C^tC \geq 0$  et le R reste arbitraire
+
 \end{document}

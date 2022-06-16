@@ -1,0 +1,40 @@
+\documentclass[resume]{subfiles}
+\begin{document}
+\section{Nyquist}
+
+\subsection{Nyquist simplifié}
+Il faut que la boucle ouverte soit stable sinon il faut le critère généralisé
+$$G_o(s) = G_a(s)\cdot G_c(s)$$
+$$G_{yw}(s)=\frac{G_o(s)}{1+G_o(s)}$$
+
+\subsubsection{boucle ouverte}
+$$G_o(s) = K(sI - A)^{-1}B$$
+
+\subsubsection{marge de phase}
+\begin{enumerate}
+\item identifier module = 0
+\item à la même pulsation regarder la diff entre -180° et la phase actuelle
+\end{enumerate}
+
+\subsubsection{marge de gain}
+\begin{enumerate}
+\item identifier la phase à -180°
+\item à la même pulsation regarder la diff entre le module et 0[dB]
+\end{enumerate}
+
+\subsection{Nyquist généralisé}
+Utilisable en tout temps. La boucle ouverte doit exactement encercler le point critique dans le sens trigonométrique le nombre de pôle instable.
+Pour compter le nombre d'encerclement, il faut fixer un élastique sur le point critique et l'autre bout suit la courbe de $-\infty$ à $\infty$. 
+
+\subsubsection{marge de phase et de gain}
+Tracer un cercle unité centré à l'origine et check les intersections entre lieux de nyquist et le cercle le plus petit angle nous donne la marge de phase.
+
+
+\subsection{Distance critique}
+Distance entre le point critique (-1) et la courbe du lieux de Nyquist.
+$$d_{crit} = min(dist(-1,L(j\omega)))$$
+
+
+
+
+\end{document}
