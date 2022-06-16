@@ -1,0 +1,14 @@
+\documentclass[resume]{subfiles}
+
+\begin{document}
+\section{Régulateurs}
+\subsection{Méthode de la sécante}
+$$\boxed{\frac{dx}{dt}\approx\frac{\Delta x}{\Delta t}=\frac{x[k]-x[k-1]}{h}}$$
+$$G_s(z)=\frac{1-z^{-1}}{h}=\frac{z-1}{hz}$$
+\subsection{Méthode des rectangles}
+$$\boxed{\int_{0}^{t}xdt\approx h\sum_{l=0}^{k-1}e[l]}$$
+$$G_{I}(s)=\frac{h}{z-1}$$
+\subsection{PID}
+En temps discret et avec méthode de la sécante et des rectangles
+$$y[k]=K_p\left(\Pcolor{e[k]}+\Icolor{\frac{1}{T_i}h\sum_{l=0}^{k-1}e[l]}+\Dcolor{T_d\frac{e[k]-e[k-1]}{h}}\right)$$
+\end{document}

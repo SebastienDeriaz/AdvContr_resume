@@ -14,13 +14,22 @@
 \item Bobine : courant
 \end{itemize}
 
-
+\subsection{Forme modale}
+Matrice $T$ construite à partir des vecteurs propres de $A$
+$$T=\begin{bmatrix}
+\\
+\vec{v}_1 & \vec{v}_2 & \cdots\\
+\\
+\end{bmatrix}$$
+$$\boxed{\begin{split}
+\tilde{A} &= T^{-1}AT &\qquad \tilde{B}&=T^{-1}B\\
+\tilde{C} &= CT&\qquad \tilde{D}&=D\end{split}}$$
 \subsection{$A,B,C,D \longrightarrow G$}
 $$G(s)=C(sI-A)^{-1}B+D$$
 $$G(z)=C_n(zI-A_n)^{-1}B_n+D_n$$
 \subsubsection{Gain haute fréquence}
 $$\lim_{s\to\infty}G(s)=D$$
-\subsubsection{Gain basse fréquence}
+\subsubsection{Gain basse fréquence (gain statique)}
 $$G(0)=-CA^{-1}B+D$$
 \subsection{$G\longrightarrow A,B,C,D$}
 On utilise la forme commandable
@@ -97,6 +106,50 @@ Faire une permutation avec $T$ ne change pas la commandabilité du système. La 
 $$\boxed{P_0=\begin{bmatrix}C\\CA\\CA^2\\\vdots\\CA^{n-1}\end{bmatrix}}$$
 $$\boxed{\text{rang}(P_0)=n\longrightarrow\text{Observable}}$$
 En monosortie on peut utiliser $\det(P_0)\neq 0\longrightarrow \text{Observable}$
+\subsection{Trajectoire}
+\subsection{Système numérique}
+Soit un système numérique avec les matrices
+$$A_n\qquad B_n\qquad C_n\qquad D_n$$
+Et la condition initiale $x_0$. On chercher à trouver les valeurs de $x[0],x[1],x[2],\cdots$
+$$x[k]=\textcolor{OrangeRed}{A_n^kx[0]}+\textcolor{RoyalBlue}{A_n^{k-1}B_nu[0]+A_n^{k-2}B_nu[1]+\cdots +B_nu[k-1]}$$
+On a la \textcolor{OrangeRed}{contribution de la condition initiale} et un \textcolor{RoyalBlue}{produit de convolution} $u[k]\ast g_x[k]$
+\subsubsection{Réponse impulsionnelle}
+Si on suppose que la condition initiale est nulle et qu'on excite le signal avec un dirac numérique, alors on a
+$$\boxed{x[k]=A_n^{k-1}B_n}$$
+\subsection{Système analogique}
+Soit un système numérique avec les matrices
+$$A_n\qquad B_n\qquad C_n\qquad D_n$$
+Et la condition initiale $x_0$
+$$\boxed{x(t)=\textcolor{OrangeRed}{e^{At}x_0}+\textcolor{RoyalBlue}{\int_{0}^{t}e^{A(t-\tau)}Bu(\tau)d\tau}}$$
+\subsubsection{Exponentielle matricielle (ou matrice de transition)}
+$$\boxed{e^{At}=I+At+\frac{(At)^2}{2!}+\frac{(At)^3}{3!}+\cdots}$$
+Si $A$ est diagonale, on peut simplifier en écrivant
+$$e^{At}=\begin{bmatrix}e^{a_{11}t} & 0 & 0\\0 & e^{a_{22}t} & 0\\0 & 0 & e^{a_{33}t}\end{bmatrix}$$
+\paragraph{Calcul par diagonalisation}
+Si $A$ est diagonalisable, alors
+$$\boxed{e^{At}=Te^{\tilde{A}t}T^{-1}}$$
+Ceci permet de simplifier les calculs en utilisant la propriété de l'exponentielle lorsque $\tilde{A}$ est diagonal
+
+\subsection{Forme commandable}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\columnwidth]{img_0.png}
+\end{figure}
+On obtient donc finalement
+$$\boxed{\begin{split}
+A&= \begin{bmatrix}0 & 1 & 0\\0 & 0 & 1\\-a_0 & -a_1 & -a_2\end{bmatrix} & B&=\begin{bmatrix}0\\0\\1\end{bmatrix}\\
+C&=\begin{bmatrix}b_0 & b_1 & b_2\end{bmatrix} & D&=0
+\end{split}}$$
+Voir \ref{sec_eq_diff}
+
+\subsection{Modèle échantillonné}
+$$\boxed{H(z)=\frac{z-1}{z}Z\left(\mathcal{L}^{-1}\left(\frac{G_a(s)}{s}\right)\Big|_{t=kh}\right)}$$
+\subsubsection{Représentation dans l'espace d'état}
+$$\boxed{\begin{split}
+A_n&=e^{Ah} & B_n&=\int_{0}^{h}e^{A\tau}Bd\tau\\
+C_d&=C & D_n &= D
+\end{split}}$$
+
 
 
 \subsection{Action intégrale sur la commande}
@@ -104,8 +157,13 @@ En monosortie on peut utiliser $\det(P_0)\neq 0\longrightarrow \text{Observable}
 \centering
 \includegraphics[width=\columnwidth]{drwg_2.pdf}
 \end{figure}
-$$\hat{A}=\begin{bmatrix}0 & C\\0 & A\end{bmatrix}\qquad B=\begin{bmatrix}0\\b\end{bmatrix}$$
+$$\hat{A}=\begin{bmatrix}0 & C\\0 & A\end{bmatrix}\qquad \hat{B}=\begin{bmatrix}0\\B\end{bmatrix}$$
+
+
 \subsection{Placement de pôles}
 Il faut que le polynôme caractéristique de la boucle fermée (par exemple $sI-A_{bf}=sI-(A-BK)$) corresponde aux pôles que l'ont souhaite
 $$\det(sI-A_{bf})=(s-p_1)(s-p_2)\cdots(s-p_n)$$
+
+\subsection{Retour d'état}
+$$A_{bf}=A-BK$$
 \end{document}
