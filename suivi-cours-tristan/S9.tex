@@ -1,0 +1,305 @@
+\documentclass[document.tex]{subfiles}
+
+\begin{document}
+
+\section{S9}
+
+\subsection{Contenu}
+
+\begin{enumerate}
+\item Rappel cours 8 : décomposition SVD, exercices série 8
+\item Systèmes non-linéaires
+\begin{itemize}
+\item points d'équilibre (points de fonctionnement)
+\item linéarisation autour d'un point d'équilibre (Taylor multi-variable)
+\item redressement (compensation) de la non-linéarité par feedback
+\item effets spéciaux de systèmes non-linéaires
+\end{itemize}
+\end{enumerate}
+
+\subsection{Rappel cours 8}
+
+\subsubsection{Image du cercle unité (hypersphère unité)}
+
+\figc{1}{201}
+
+\subsubsection{Amplification maximale et minimale}
+
+Définition équivalente de l'amplification maximale $=\sigma_{max}$
+\figc{0.5}{202}
+
+Définition de l'amplification minimale $=\sigma_{min}$
+\figc{0.5}{203}
+
+\subsection{Factorisation (décomposition) SVD de matrices}
+
+\textbf{SVD (Singular value decomposition)} : \url{https://en.wikipedia.org/wiki/Singular_value_decomposition}
+
+\textbf{SVD (Décomposition en valeurs singulières)} : \url{https://fr.wikipedia.org/wiki/D%C3%A9composition_en_valeurs_singuli%C3%A8res}
+
+\figc{1}{204}
+
+\subsubsection{décomposition en valeurs singulières (SVD)}
+\figc{1}{205}
+\textbf{Réécriture de la relation}
+
+$$ \boxed{M = U S V^T} $$
+
+$$ M = \underset{\underset{mtx ortho}{\downarrow}}{U} \underset{\underset{mtx diag}{\downarrow}}{S} \underset{\underset{mtx ortho transp}{\downarrow}}{V^T} $$
+
+avec : $U = \begin{bmatrix} \vec{u}_1 & \vec{u}_2 & \ldots & \vec{u}_n \end{bmatrix} $
+
+$$ M \vec{x}  = \sigma_1 \overbrace{vec{u}_1 \underbrace{\vec{v}_2^T \vec{x}}_{\text{scalair}}}^{\text{mtx rang 1}} + \sigma_2 \overbrace{\vec{u}_2 \underbrace{\vec{v}_2^T \vec{x}}_{\text{scalair}}}^{\text{mtx rang 1}} + \ldots + \sigma_n \overbrace{\vec{u}_n \underbrace{\vec{v}_n^T \vec{x}}_{\text{scalair}}}^{\text{mtx rang 1}}$$
+
+\subsubsection{amplification directionnelle}
+\figc{1}{206}
+
+\subsubsection{Rang d'une matrice, conditionnement}
+\figc{1}{207}
+
+\textbf{Exercice}
+\figc{1}{208}
+
+\subsubsection{Autre propriétés importantes de la SVD}
+
+lien entre valeurs singulières et valeurs propres :\\
+\begin{itemize}
+\item valeurs singulières applicable pour n'importe quelle taille de matrice
+\item valeurs propres que applicable pour des matrices de taille carrée
+\item les valeurs singulières sont des nombres réels positifs $\geq 0$
+\item les valeurs propres peuvent être réels (pos/nég) ou complexes 
+\item $\sigma_k(M)=\sqrt{\lambda_k(M^T M)}$ \\
+Ce qui explique que les valeurs singulières sont  $\geq 0$
+\item $\text{det}(M)=\prod_{k=1 \ldots n} \sigma_k(M)$ pour une matrice carrée $M$\\
+Ce qui explique que le déterminant peut être très loin de zéro alors que
+\end{itemize}
+
+
+\subsubsection{Diagramme de Bode multivariable (sigma plot)}
+
+Pour une matrice de transfert $H(j\omega)$ d'un système multivariable (MIMO), les valeurs singulières de $G$ dépendent de la fréquence (respectivement la pulsation).\\
+
+On les affiche en \si{[\decibel]} ou bien sur un axe vertical logarithmique.\\
+L'axe horizontal est logarithmique, soit en \si{[\radian\per\sec]} ou \si{[\hertz]}.\\
+
+Command Matlab : \codeword{sigma(sys)}\\
+
+L'information de la phase est perdue.\\
+L'information des directions d'amplification est perdue.
+
+\figc{1}{209}
+
+$$ G)s  = \begin{bmatrix} \frac{10^3}{s} & 0 \\ 0 & \frac{10}{1 + \frac{s}{10}} \end{bmatrix}$$
+
+\textbf{Équivalent à :}
+
+\begin{itemize}
+\item Inversion :
+$$ G)s  = \begin{bmatrix} \frac{10}{1 + \frac{s}{10}} & 0 \\ 0 & \frac{10^3}{s}  \end{bmatrix}$$
+\item Déphasage :
+$$ G)s  = \begin{bmatrix} \frac{10}{1 + \frac{s}{10}}e^{-T_{r1}s} & 0 \\ 0 & \frac{10^3}{s}e^{-T_{r2}s}  \end{bmatrix}$$
+\item Changement de direction :
+$$ G)s  = U(s)\begin{bmatrix} \frac{10}{1 + \frac{s}{10}}e^{-T_{r1}s} & 0 \\ 0 & \frac{10^3}{s}e^{-T_{r2}s}  \end{bmatrix} V^T(s)$$
+Avec : $ U V^T = I $ et $U V^T = I $
+\end{itemize}
+
+Manière la plus simple de représenter un système multivariable, il y a cependant une perte d'information. En effet, on ne connais ni la phase, ni, la direction dans lequel il y a l'amplification maximal (il nous manque les vecteurs singulier).
+
+
+\subsection{Points d'équilibre / points de fonctionnement}
+
+On appelle $\vec{x}_e$ un \textbf{point d'équilibre} du système dynamique non-linéaire :
+
+$$
+\begin{array}{l l}
+\dot{\vec{x}}=\vec{f}(\vec{x}) & \begin{cases} \dot{x}_1 = f_1(x_1,x_2,\ldots,x_n) \\ \dot{x}_2 = f_2(x_1,x_2,\ldots,x_n) \\
+\vdots \\ \dot{x}_n = f_n(x_1,x_2,\ldots,x_n) \end{cases} \\
+\text{si } \vec{f}(\vec{x}_e)=\vec{0}
+\end{array}
+$$
+
+$$ \dot{\vec{x}}(t) = \vec{f}(\vec{x}(t),u(t)) \quad \quad \vec{f}(\vec{x}_e,u_e) = \vec{0}$$ 
+
+Le \textbf{"point de fonctionnement"} dépend de l'entrée : $ \vec{x}_e(u_e)$
+
+\subsection{Système non-linéaire d'ordre 1}
+\figc{0.6}{210}
+
+Un système non-linéaire peut avoir \textbf{plusieurs} points d'équilibres !\\
+
+Exemple : pendule $\longrightarrow$ un point d'équilibre \textbf{stable en bas} et un point d'équilibre \textbf{instable en haut}.
+
+\subsubsection{Le calcul d'un point d'équilibre}
+Résolution d'un système "implicite" : $\boxed{\vec{f}(\vec{x}_e)=\vec{0}}$\\
+Trouver le zéro de la fonction f(x) ! \\
+
+Souvent pas de solution analytique !\\
+
+Méthode numérique itérative de Newton-Raphson permet de trouver le zéro d'une fonction à partir d'une valeur de départ approximative ("initial guess")
+
+
+\subsection{Approximation locale par Taylor (linéarisation)}
+\figc{0.6}{212}
+
+\tbox{La tangente approxime localement la fonction f(x)}
+
+
+\subsubsection{Nouvelle variable d'état : la "déviation" autour du point d'équilibre}
+%\figc{1}{213}
+
+Rappel : $x_e$ correspond au point d'équilibre, donc la dérivé temporel de $x_e$ est nul !
+
+$$ \begin{array}{l}
+ \vec{\Delta x} = \vec{x} - \vec{x}_e \\
+ \dot{\vec{\Delta x}} = \dot{\vec{x}} - \vec{0} = \dot{\vec{x}}
+\end{array} $$
+
+Taylor mono-variable :
+
+$$ f(x_e + \Delta x) \approx f(x_e) + \dfrac{df}{dx} (x_e)\cdot \Delta x + \ldots $$
+
+$$
+\begin{array}{l}
+\dot{x} = f(x) \\ \dot{\Delta x} \approx \underbrace{f(x_e)}_{0} + \underbrace{\dfrac{df}{dx} (x_e)}_{a} \Delta x
+\end{array}
+$$
+
+Finalement le système devient linéaire :
+$$ \boxed{\dot{\Delta x}=a\cdot \Delta x} $$
+
+\subsubsection{Taylor multivariable}
+\figc{0.4}{214}
+
+$$ \vec{f}(\vec{x}_e + \vec{\Delta x}) = \vec{f}(\vec{x}_e) + \underbrace{\nabla \vec{f} \; \vert_{\vec{x}_e}}_{\text{mtx jcobienne}} \vec{\Delta x}$$
+
+\subsection{Stabilité locale des points d'équilibres d'un système non-linéaire d'ordre n}
+%\figc{0.4}{215}
+
+$$ \boxed{ \dot{\vec{\Delta x}} = A\vec{\Delta x}} $$
+
+$$ A = \begin{bmatrix}
+\frac{\partial f_1}{\partial x_1} & \frac{\partial f_1}{\partial x_2} & \ldots & \frac{\partial f_1}{\partial x_n} \\[6pt]
+\frac{\partial f_2}{\partial x_2} & \frac{\partial f_2}{\partial x_2} & \ldots & \frac{\partial f_1}{\partial x_n} \\[6pt]
+\vdots & \vdots & \ddots & \vdots \\[6pt] \frac{\partial f_n}{\partial x_1} & \frac{\partial f_n}{\partial x_2} & \ldots & \frac{\partial f_n}{\partial x_n} 
+\end{bmatrix} $$
+
+\subsection{Linéarisation autour d'un point d'équilibre}
+%\figc{1}{216}
+
+\begin{enumerate}
+\item Si le système \textbf{linéarisé} est \textbf{asymptotiquement} stable (\textbf{toutes} les \textbf{valeurs propres de A} dans le\textbf{ demi-plan gauche}), alors le point d'équilibre $x_e$ du système \textbf{non-linéaire} est \textbf{\underline{localement}} \textbf{stable}.
+\item Si le système \textbf{linéarisé} est \textbf{instable} (\textbf{une} ou \textbf{plusieurs valeurs propres de A} dans le \textbf{demi-plan droit}), alors le point d'équilibre $x_e$ du système non-linéaire est également \textbf{instable}.
+\item Si le système \textbf{linéarisé} est \textbf{marginalement stable} (valeurs propres de A sur l'axe imaginaire), alors on ne peut \textbf{rien conclure} sur le comportement du système non-linéaire.
+
+\end{enumerate}
+
+\subsubsection{Récapitulatif des système non-linéaire :}
+\textbf{Système non-linéaire :} \hfill $ \boxed{\dot{\vec{x}}=\vec{f}(\vec{x})}$ \hfill \; \\
+
+Linéarisation autour d'un point de fonctionnement (point d'équilibre) :
+
+$$ \vec{f}(\vec{x}_e) = \vec{0} $$
+
+Système linéarisé  : $\Delta \vec{x} = \vec{x} - \vec{x}_e$
+$$ \boxed{\dot{\Delta \vec{x}} = A \Delta \vec{x}} $$
+
+\begin{enumerate}
+\item \textbf{Système linéarisé \underline{stable}} $\Rightarrow$ point d'équilibre du système non-linéaire est \textbf{\underline{localement} stable}
+\item \textbf{Système linéarisé \underline{instable}} $\Rightarrow$ \textbf{point d'équilibre} du système non-linéaire est \textbf{\underline{localement} instable}
+\item \textbf{Système linéarisé \underline{marginalement stable}} $\Rightarrow$ \textbf{\underline{aucune} conclusion possible}
+\end{enumerate}
+
+\subsection{Linéarisation d'un système non-linéaire avec entrée}
+%\figc{0.6}{217}
+
+$$
+\begin{array}{l l}
+
+\dot{\vec{x}} = \vec{f}(\vec{x},u) & \vec{f}(\vec{x}_e,u_e)=\vec{0} \\
+
+A = \dfrac{\partial \vec{f}}{\partial \vec{x}}\bigg\rvert_{\vec{x}_e,u_e} = \begin{bmatrix}
+\frac{\partial f_1}{\partial x_1} & \frac{\partial f_1}{\partial x_2} & \ldots & \frac{\partial f_1}{\partial x_n} \\[6pt]
+\vdots & \vdots & \vdots & \vdots \\[6pt]
+\frac{\partial f_n}{\partial x_1} & \frac{\partial f_n}{\partial x_2} & \ldots & \frac{\partial f_n}{\partial x_n} \\[6pt]
+\end{bmatrix} \Bigg\rvert_{\vec{x}_e,u_e} &
+ B = \dfrac{\partial \vec{f}}{\partial \vec{u}}\bigg\rvert_{\vec{x}_e,u_e} = \begin{bmatrix}
+\frac{\partial f_1}{\partial u} \\[6pt]
+\frac{\partial f_2}{\partial u} \\[6pt]
+\vdots \\[6pt]
+\frac{\partial f_n}{\partial u} \\[6pt]
+\end{bmatrix}
+\end{array}
+$$
+$$\boxed{ \dot{\vec{\Delta x}} = A \Delta x + B \Delta u}$$
+
+\subsection{Synthèse d'un régulateur basé sur un modèle linéarisé}
+%\figc{1}{218}
+
+Que faire si le point de fonctionnement (point d'équilibre) varie ?\\
+
+S'il varie lentement, on peut changer les paramètres du régulateur en fonction du point de fonctionnement "gain scheduling" !\\
+
+Si le système non-linéaire est bien connu, on peut aussi essayer de "redresser" les non-linéarités. Approche en deux étapes :
+\begin{enumerate}
+\item En utilisant un \textit{feedback/feedforward} non-linéaire, rendre le système linéaire. On essaye de compenser les non-linéarités
+\item On obtient un nouveau système à régler qui est linéaire.\\
+Méthodes de synthèse linéaire  
+
+
+\subsection{Linéarisation autour d'une trajectoire périodique}
+
+\figc{0.8}{219}
+
+$$\boxed{\dot\vec{x}(t) = A(t) \vec{\Delta x} (t)}$$
+
+Le système linéarisé n'est plus LTI (linear time invariant), mais LTV (linear time variant), resp. LTP (linear time periodic).
+
+\subsection{Redressement de la non-linéarité : exemple}
+
+\figc{0.8}{220}
+\figc{0.8}{221}
+
+\subsubsection{Redressement de la nonl-inéarité : "feedback linearization"}
+\figc{0.8}{222}
+
+\subsection{Effets observés dans les systèmes non-linéaires}
+\figc{0.8}{223}
+\figc{0.8}{224}
+\figc{0.8}{225}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
+

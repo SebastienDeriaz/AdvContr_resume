@@ -2,3 +2,7 @@
 *.aux
 *.log
 *.gz
+suivi-cours-tristan/document.out
+suivi-cours-tristan/*.toc
+suivi-cours-tristan/*.pdf
+suivi-cours-tristan/*.out

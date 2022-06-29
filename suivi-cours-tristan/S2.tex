@@ -1,0 +1,368 @@
+\documentclass[document.tex]{subfiles}
+
+\begin{document}
+
+\section{S2 - Algèbre Linéaire}
+
+\subsection{Contenue}
+\begin{enumerate}
+\item \textbf{Sur-paramétrisation} et \textbf{non-univocité} de [A, B, C, D]
+\item \textbf{Transformations linéaires} dans l'espace d'état et exemple
+\item Forme \textbf{modale} via \textbf{décomposition en éléments simples}
+\item Rappel \textbf{valeurs propres} / \textbf{vecteurs propres}
+\item Forme \textbf{modale} via \textbf{diagonalisation de A }
+\item Solution générale de la trajectoire $x[k]$, systèmes \textbf{LTI} à \textbf{temps discret} et \textbf{temps continu}
+\begin{itemize}
+	\item contribution de la condition initiale
+	\item contribution du signal d'entrée (produit de convolution)
+\end{itemize}
+\end{enumerate}
+
+\subsection{Conversion "espace d'état" $\Rightarrow$ "fonction de transfert"}
+
+\begin{equation}
+	\boxed{
+	\begin{array}{l}
+		\dot{\vec{x}} = A \vec{x} + B u \\
+		y = C \vec{x} + D u
+\end{array}		
+	}
+\end{equation}
+
+\figc{0.7}{34}
+
+\textbf{La fonction de transfert G(s) est univoque}
+\begin{equation}
+G(s) = C(sI-A)^{-1}B+D
+\end{equation}
+
+\subsection{Sur-paramétrisation de la représentation dans l'esp. d'état}
+
+\subsubsection{Exemple : système d'ordre 2}
+
+\begin{equation}
+G(s) = \frac{b_2s^2+b_1s+b_0}{s^2+a_1s+a_0}\;\;\;\; : \;\;\;\; 5 \text{ paramètres} 
+\end{equation}
+
+La représentation dans l'espace d'état est fortement sur-paramétrée.\\
+
+Deux systèmes identiques au niveau de la fonction de transfert peuvent avoir des matrices A, B, C complètement différentes.\\
+
+On verra que c'est pas un inconvénient !\\
+
+\begin{center}
+\begin{tabular}{l}
+A : $2 \times 2\;=\;4$ paramètres\\
+B : $2 \times 1\;=\;2$ paramètres\\
+C : $1 \times 2\;=\;2$ paramètres\\
+D : $1 \times 1\;=\;1$ paramètres\\\hline
+$ \;\;\;\;\;\sum\;=\;9$ paramètres
+\end{tabular}
+\end{center}
+\begin{flushleft}
+\textbf{\large Le l'espace d'état est donc sur dimensionné :} 
+\textit{Il y a 4 paramètre supplémentaire pour décrire le système.}
+\end{flushleft}
+
+Il existe des formes particulières dans l'espace d'état, p.ex. forme modale, forme commandable, forme observable, etc, qui permettent de mettre en évidence des propriétés remarquables du système.\\
+
+Quelles sont les possibilités d'obtenir une nouvelle représentation dans l'espace d'état à partir d'une existante ?\\
+
+On peut permuter des variables d'état mais ce n'est pas très intéressant. Par contre, on peut introduire des nouvelles variables d'état à partir de variables d'état
+existantes en formant des combinaisons linéaires des anciennes.\\
+
+\subsection{Transformations linéaires dans l'espace d'état}
+
+On va appeler $\tilde{x}_1, \tilde{x}_2,\ldots, \tilde{x}_n$ les nouvelles variables d'état, regroupées dans le vecteur $\tilde{x}$ : 
+\begin{equation}
+x=T\tilde{x}
+\end{equation}
+Avec $T$ étant une matrice de transformation $n \times n$ inversible et constante.
+\begin{equation}
+\boxed{\tilde{x}=T^{-1}x}
+\end{equation}
+
+\begin{center}
+$
+\begin{array}{l c l}
+\dot{x}=T\dot{\tilde{x}} & \; & \; \\
+\dot{x}=Ax+Bu &\Rightarrow \; T\dot{\tilde{x}}=AT\tilde{x}+Bu & \vline\; T^{-1}\\
+\dot{\tilde{x}}=T^{-1}AT\tilde{x}+T^{-1}Bu & \; & y = Cx + Du \\
+\; & \Rightarrow & y = CT\tilde{x} + Du
+\end{array}
+$
+\end{center}
+
+
+\subsection{Transformations linéaires dans l'espace d'état}
+
+
+\begin{center}
+$
+\boxed{
+\begin{array}{c}
+\text{\textit{C'est simplement un changement de base en algèbre linéaire. Les propriété du }}
+\\
+\text{\textit{système ne change pas, seulement sa représentation dans l'espace !}}
+\end{array}
+}
+$
+\end{center}
+
+
+\begin{equation}
+\boxed{
+\begin{array}{l c l}
+\tilde{A}=T^{-1}AT & ; & \tilde{B}=T^{-1}B \\
+\tilde{C}=CT & ; & \tilde{D}=D
+\end{array}}
+\end{equation}
+
+Même si le contenu des matrices $\tilde{A},\;\tilde{B},\;\tilde{C}$ est différent de A, B, C, cela représente le \textbf{même} système, \textbf{même} fonction de transfert, \textbf{même} pôles, \textbf{même} zéros, \textbf{même} gain statique, \textbf{même} gain haute fréquence (matrice D) !\\
+
+\subsubsection{Exercice}
+
+\figc{0.8}{35}
+
+\subsection{Transformation : tf $\Rightarrow$ ss : forme modale / décomposition en éléments simples}
+
+\textit{C'est simplement une décomposition en élément simple :}\\
+
+\figc{1}{36}
+
+\textbf{Attention :} une somme de deux fonction de transfert $G_1(s) + G_2{s}$ est semblable à \textbf{mise en parallèle} de $G_1(s)$ et $G_2{s}$.
+
+\begin{equation}
+\begin{cases}
+	\dot{x}_1 = -2x_1 + 0x_2 + 1u \\
+	\dot{x}_2 = 0x_1 - 3x_2 + 1u \\
+	y = -3x_1 + 5x_2 + 0u
+\end{cases}
+\end{equation}
+
+\begin{equation}
+\begin{array}{l l}
+A = \begin{bmatrix}
+	 \tikzmark{top}{-2} & 0 \\ 0 & \tikzmark{bottom}{-3}
+\end{bmatrix} & B = \begin{bmatrix} 1 \\ 1 \end{bmatrix} \\[18pt]
+C = \begin{bmatrix} -3 & 5 \end{bmatrix} & D = 0
+\end{array}
+\end{equation}
+
+\begin{tikzpicture}[overlay,remember picture]
+     \draw[opacity=.4,line width=3mm,line cap=round] (top.center) -- (bottom.center);
+\end{tikzpicture}
+
+
+\begin{itemize}
+\item Pour des pôles simples réels, la forme modale donne une matrice $A$ \textbf{diagonale}.
+\item Pour des pôle complexes conjugués, et des pôles multiples, $A$ prend une  \textbf{« forme de Jordan »}.
+\end{itemize}
+
+\subsection{Rappel : valeurs propres / vecteurs propres}
+
+\figc{1}{37}
+
+\begin{itemize}
+\item Un vecteur propre pré-image $v$ est transformé par A en une image $Av$ parallèle.
+\item Le facteur de proportionnalité $\lambda$ est appelé valeur propre.
+\item Les valeurs propres peuvent être réels ou complexes conjugués.
+\end{itemize}
+
+\subsubsection{Valeur propre rapide}
+
+\begin{equation}
+\begin{array}{l l}
+	\begin{Large} A = \begin{bmatrix} a & b \\ c & d \end{bmatrix} \end{Large} & \begin{cases} \text{1)}\; \boxed{\frac{a+d}{2} = \frac{\lambda_1+\lambda_2}{2} = m} \; \Rightarrow \; \text{Moyenne de la diagonal} \\[12pt] \text{2)}\; \boxed{ad-bc=\lambda_1 \lambda_2 = p} \; \Rightarrow \; \text{produit des pôles} \end{cases}
+\end{array}
+\end{equation}
+
+\begin{equation}
+\boxed{\begin{Large} \lambda_{1,2} = m \pm \sqrt{m^2-p} \end{Large}}
+\end{equation}
+
+\subsection{Exemple : calcul des valeurs/vecteurs propres}
+\figc{0.9}{38}
+
+\begin{equation}
+\begin{array}{l l}
+\dot{x}=Ax & \text{à chaque point x on colle le vecteur vitesse  } Ax
+\end{array}
+\end{equation}
+
+\figc{0.6}{39}
+
+\subsection{mécanique vibratoire - vecteurs propres = modes propres}
+
+\textbf{Plaque en forme de L, encastrée sur 2 bords (logo Matlab)}
+
+\figc{0.8}{40}
+Si on donne comme condition initiale un mode propre associé à une fréquence propre, tous les points de la structure vont vibrer à uniquement cette fréquence.\\ 
+Si on donne une condition initiale arbitraire, on va observer un mélange des fréquences propres.\\
+
+\subsubsection{Problème mécanique - Espace de \textit{phases} $\rightarrow$ Espace \textit{d'états}}
+
+\textbf{En mécanique :}
+\begin{equation}
+\begin{array}{c c l c l}
+	\underbrace{M}_{\text{Inertie}} \ddot{q} + \underbrace{K}_{\text{Raideur}} q = 0 & \rightarrow & \begin{cases} \dot{x} = A x + B u \\  y = C x + D u \end{cases} & \rightarrow & x = \underbrace{\begin{bmatrix}
+	q \\ \hdashline[2pt/1pt] \dot{q} \end{bmatrix}}_{\text{Coordonés généralisées}}
+\end{array}
+\end{equation}
+
+Passage du domaine mécanique "\textbf{espace de phases}" à \textbf{l'éspace d'états}
+
+\subsection{Diagonalisation de A}
+Si les vecteurs propres sont tous linéairement indépendant, on peut les regrouper dans une matrice de transformation $T$
+\begin{equation}
+T = [v_1, v_2, \ldots, v_n]
+\end{equation}
+Cette matrice de transformation T permet de diagonaliser $A$ :\\
+\begin{equation}
+	\tilde{A}=T^{-1}AT = \textbf{diag}(\lambda_1,\lambda_2,\ldots,\lambda_n)
+\end{equation}
+
+En cas de valeurs propres complexes conjugués, on préfère garder $\tilde{A}$ réel en gardant un bloc $2\times 2$ sur la diagonale.\\
+En cas de vecteurs propres multiples, on arrive généralement pas à diagonaliser, il faudra se contenter de la « \textbf{forme de Jordan} ».\\
+Attention : $T$ peut être numériquement mal conditionné.\\
+
+\subsubsection{Cas T non inversible : }
+\begin{center}$
+\begin{array}{l l}
+	A = \begin{bmatrix} 0 & 1 \\ 0 & 0 \end{bmatrix} & \lambda_1 = \lambda_2 = 0 \\
+	A \vec{v} = \lambda \vec{v} = \begin{bmatrix} 0 \\ 0 \end{bmatrix} & \vec{v} = \begin{bmatrix} v_x \\ v_y \end{bmatrix} \\
+	A \vec{v} = \begin{bmatrix} v_y & 0 \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix} \vec{v} = \begin{bmatrix} 1 \\ 0 \end{bmatrix} & v_y = 0 \; \rightarrow \; v_x = ?
+	\end{array}$
+\end{center}
+
+\textbf{Pour palier à ce problème, on peut utiliser la forme de Jordan.}
+
+\subsubsection{Exemple de diagonalisation}
+\figc{0.7}{41}
+
+\todo{Corriger l'exemple}
+
+\subsection{Solution générale de la trajectoire numérique x[k]}
+\figc{0.6}{42}
+
+La solution se trouve de manière récursive $x[0],\;x[1],\;x[2],\;\ldots$ 
+
+\figc{0.9}{43}
+
+\subsection{Réponse impulsionnelle}
+
+\figc{0.9}{44}
+
+La solution $x[k]$ fait intervenir deux contributions :\\
+\begin{itemize}
+\item Contribution de la condition initiale : $A_n^k \cdot x_0$   « solution homogène »
+\item contribution du signal d'entrée $u[k]$ : produit de convolution entre $u[k]$ et la réponse impulsionnelle $x[k]$
+\end{itemize}
+\textbf{Principe de superposition : les deux contributions s'additionnent !}
+
+
+\subsection{Convolution discrète / matrice Toeplitz - \textit{Convolution matricielle}}
+La convolution étant une opération linéaire, il est possible de la représenter comme l'effet d'une matrice agissant sur le signal d'entrée.\\
+
+Cette matrice a une structure particulière, appelée "Toeplitz".\\
+
+\figc{0.5}{45}
+
+\subsection{Solution générale de la trajectoire x(t) temps continu }
+
+\begin{equation}
+\begin{cases}
+ \dot{x} = \overbrace{a}^{scalaire} \cdot x \; , \; x \in \mathbb{R}^1 \\
+ x(0) = x_0
+\end{cases} \Rightarrow \; \text{solution : } x(t)=e^{a t}x
+\end{equation}
+
+\figc{0.6}{46}
+
+L'exponentielle matricielle $e^{At}$ est appelée « matrice de transition »
+
+\begin{center}
+\begin{tabular}{|c|}
+\hline 
+\begin{Large}
+	Matlab : exp\textbf{m}(A*t)
+\end{Large}
+\\ \hline
+\end{tabular}
+\end{center}
+
+\subsection{Définition de l'exponentielle matricielle : Taylor}
+
+\textbf{Série de Taylor : composition de polynôme de degré $1 \rightarrow n$}
+
+$$
+\begin{array}{l l}
+e^{At} = I + A t + \frac{(A t)^2}{2!} + \frac{(A t)^3}{3 !} + \frac{(A t)^4}{4 !} + \ldots &
+A = \begin{bmatrix} 0 & \\ 0 & 0 \end{bmatrix} \; \Rightarrow \; A t = \begin{bmatrix} 0 & t \\ 0 & 0 \end{bmatrix} \\
+(A t)^2 = A t \cdot A t = \begin{bmatrix} 0 & t \\ 0 & 0 \end{bmatrix} \begin{bmatrix} 0 & t \\ 0 & 0 \end{bmatrix}= \begin{bmatrix} 0 & 0 \\ 0 & 0 \end{bmatrix}
+\end{array}
+$$
+
+\textbf{Donc : } $e^{A t} =  I + A t$ car tout les termes supplémentaire sont nuls !\\
+\textbf{Finalement : }
+\begin{equation}
+\boxed{ e^{A t} = \begin{bmatrix} 1 & t \\ 0 & 1 \end{bmatrix} }
+\end{equation}
+Ce qui correspond à \textbf{un double intégrateurs}.\\
+
+\textbf{Solution classique : } $x(t) = \begin{bmatrix} x_{10} \cdot \overbrace{t}^{rampe} + x_{10} \\ \underbrace{x_{20}}_{const.} \end{bmatrix} $ \\
+\textbf{Preuve : }
+$$
+\begin{array}{l c l}
+	e^{At} \cdot \begin{bmatrix} x_{10} \\ x_{20} \end{bmatrix} = \begin{bmatrix} 1 & t \\ 0 & 1 \end{bmatrix} \begin{bmatrix} x_{10} \\ x_{20} \end{bmatrix} = \begin{bmatrix} x_{10} + t x_{20} \\ x_{20} \end{bmatrix} &\text{ \& }& \Sigma(t) = e^{At}=I+At+\frac{(At)^2}{2!}+\frac{(At)^3}{3!}+\ldots
+\end{array}
+$$
+
+Il y a une infinité de termes dans la série de Taylor.\\
+Si l'on coupe après le terme linéaire, on obtient une approximation qui correspond à la méthode \textbf{d’Euler} (approximer la dérivée par une sécante).\\
+
+Pour une matrice diagonale, $\boxed{e^{At}}$ est diagonale aussi, et les éléments de la  diagonale correspondent à l'exponentielle habituelle (scalaire). \\ 
+
+\begin{equation}
+\begin{array}{l l}
+A=\begin{bmatrix} A_{11} & 0 & 0 \\ 0 & \ddots & 0 \\ 0 & 0 & A_{nn} \end{bmatrix} & \; \Rightarrow \; e^{At}=\begin{bmatrix} e^{A_{11}t} & 0 & 0 \\ 0 & \ddots & 0 \\ 0 & 0 & e^{A_{nn}t} \end{bmatrix}
+\end{array}
+\end{equation}
+
+Les termes dans l'exponentielle matricielle peuvent être des
+exponentielles, des sinus, des sinus amortis, et même des polynômes. \\                   
+
+\subsection{Calcul de $e^{At}$ par diagonalisation}
+
+\figc{0.8}{47}
+
+Cette approche n'est que faisable si les vecteurs propres de $A$ sont linéairement indépendants, et que la matrice de transformation $T$ composée des vecteurs propres soit numériquement bien conditionnée.
+
+\subsection{produit de convolution}
+\begin{equation}
+\int_0^t e^{A(t-\tau)} B u(\tau) d \tau = g_x(t) \ast u(t)
+\end{equation}
+
+\figc{0.7}{48}
+
+\subsection{solution générale en utilisant Matlab}
+
+\figc{1}{49}
+
+Un des avantages de la représentation dans l'espace d'état, c'est de pouvoir prendre en compte des conditions initiales non nulles.\\
+Beaucoup de fonctions Matlab font en interne les calculs sous forme ss, même si on donne pour le système une représentation tf.\\
+Le calcul matriciel numérique offre beaucoup d'avantages !
+
+\subsection{Intégrale numérique, approximation par une sécante}
+
+\begin{equation}
+\begin{array}{l c c}
+	\dot{x} A x & \Rightarrow & \dot{x} \simeq \frac{x[k+1]-x[k]}{h} \\
+	\; & \Rightarrow & \frac{x[k-1]-x[k]}{h} \simeq A x[k] \; \vline \; \cdot h \\
+	x[k+1] \simeq x[k] + A h x[k] & \Rightarrow & x[k+1] \simeq (I + A \cdot h) x[k]
+\end{array}
+\end{equation}
+
+
+
+\end{document}

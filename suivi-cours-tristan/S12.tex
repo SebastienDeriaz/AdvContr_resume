@@ -1,0 +1,186 @@
+\documentclass[document.tex]{subfiles}
+
+\begin{document}
+
+\section{S12 - Régulation robuste (suite)}
+
+\subsection{Contenu}
+
+\begin{enumerate}
+\item Rappel cours 11, exercices série 11
+\item Incertitudes structurées (paramétriques) et non structurées
+\item Introduction à la régulation robuste $H_\infty$
+\end{enumerate}
+
+
+\subsection{tentative de définition "régulation robuste"}
+
+\textbf{Ensemble d'outils permettant d'effectuer :}\\
+
+\begin{enumerate}
+\item L'\textbf{analyse} des propriétés d'une boucle fermée avec un système à régler comprenant des \textbf{incertitudes}.
+\item la \textbf{synthèse} d'un régulateur \textbf{fixe} (non adaptatif) pour une \textbf{famille} de systèmes à régler avec des \textbf{incertitudes} (paramétriques et non-paramétriques) telle qu'un certain niveau de performance en boucle fermée soit \textbf{préservé} pour toute la famille des systèmes à régler.
+\end{enumerate}
+
+\subsection{Rappel : Nombre d'encerclements nécessaires pour la stabilité en boucle fermée}
+
+\textbf{Critère de Nyquist généralisé : }\\
+
+$\Rightarrow$ valable pour tous les systèmes stables ou instables en b.o.\\
+La \textbf{boucle fermée} est \textbf{stable} si et seulement si le \textbf{nombre
+d'encerclements du point critique} $-1$ dans le sens trigonométrique correspond au \textbf{nombre de pôles instables en boucle ouverte}.
+
+\figc{1}{245}
+
+\subsection{Définition de la distance critique}
+
+\figc{1}{246}
+
+\subsection{Marges de stabilité}
+
+Une \textbf{distance critique} confortable (p.ex $d_{\text{crit}}>0.5$) implique des 
+bonnes marges de gain et de phase.
+
+
+$$
+\boxed{ A_m > \dfrac{1}{1-d{\text{crit}}}} \quad \quad \quad \boxed{\phi_m > 2 \arcsin\bigg( \dfrac{d_{\text{crit}}}{2} \bigg)}
+$$
+
+\textbf{Attention : Le contraire n'est pas vrai !}\\
+
+\figc{0.5}{247}
+
+\subsection{Norme}
+
+$$ \boxed{G(\overline{z}) = \overline{G}(z)} $$
+
+$$ \begin{array}{c c c}
+\overset{\text{pré-image}}{\vec{x}} & \overset{M}{\longrightarrow} & \vec{y}= M\vec{x}\\[12pt]
+\text{vecteurs} & \text{lin} & \text{vecteurs} \\
+\mathbb{R}^n & & \mathbb{R}^n  \\[12pt]
+u(t)&\longrightarrow \boxed{G(s)} \longrightarrow  & y(t) = g(t)
+\end{array} $$
+\subsection{Rappel normes : à quoi ça sert}
+\figc{1}{248}
+
+\subsection{Normes pour matrices}
+\figc{0.8}{249}
+
+\subsection{Vecteurs - Matrices - Signaux - Systèmes LTI}
+\figc{1}{250}
+
+\subsection{Norme $H_2$ , lien temporel/fréquentiel : thrm. de Parseval}
+\figc{1}{251}
+
+L'énergie d'un signal dans le domaine temporelle est égale à l'énergie dans le domaine fréquentiel, soit plus précisément :
+
+\begin{center}
+\textit{La norme $H_2$ de $G(s)$ correspond à la norme $L_2$ de sa réponse impulsionnelle $g(t) =$ énergie de la réponse impulsionnelle}
+\end{center}
+
+\subsection{norme $H_\infty$ = norme induite $L_2$ : \textit{worst case}}
+\figc{1}{252}
+
+\subsection{Pic d'une fonction de transfert (norme infinie)}
+
+$$ \boxed{\parallel G \parallel_\infty = \max_{\omega} \vert G(j\omega) \vert }$$
+
+\figc{0.8}{254}
+
+\subsection{norme $H_\infty$ pour systèmes multivariables}
+
+$$
+\boxed{\parallel G \parallel_\infty \overset{\Delta}{=} \max_\omega \overline{\sigma}(G(j\omega)) = \max_u \dfrac{\parallel y \parallel_2}{\parallel u \parallel_2}}
+$$
+
+\figc{1}{255}
+
+\subsection{le "gang" des 4 fonctions de transfert en b.f.}
+
+\figc{0.8}{256}
+
+\subsubsection{Équivalent français}
+
+$$
+\begin{array}{l}
+G_{ew}(s) = \dfrac{E(s)}{W(s)} = \dfrac{1}{1 + G_a(s)G_c(s)} = \dfrac{1}{1+G_o(s)} = S(s) \\[12pt]
+G_{uw}(s) = \dfrac{U(s)}{W(s)} = \dfrac{G_c(s)}{1 + G_a(s)G_c(s)} =  G_c(s) S(s)\\[12pt]
+G_{yw}(s) = \dfrac{Y(s)}{W(s)} = \dfrac{G_a(s)G_c(s)}{1 + G_a(s)G_c(s)} = \dfrac{Go(s)}{1+G_o(s)} = T(s) = 1-S(s) \\[12pt]
+G_{yv}(s) = \dfrac{Y(s)}{V(s)} = \dfrac{G_a(s)}{1 + G_a(s)G_c(s)} = G_a(s) S(s) \\[12pt]
+\end{array}
+$$
+
+\subsection{$L(s)$, $S(s)$ et $T(s)$ ont $[1]$ comme unité physique}
+
+\figc{0.8}{257}
+
+$$ C : \begin{bmatrix} \; U_2 \; \\ \hline \; U_1 \; \end{bmatrix} \quad \quad \quad P : \begin{bmatrix} \; U_1 \; \\ \hline \; U_2 \; \end{bmatrix} $$
+
+\subsection{Allures typiques du Bode de $L$, $S$, et $T$}
+
+\figc{1}{258}
+
+\subsection{Lien entre distance critique et pic de sensibilité}
+
+\figc{1}{259}
+
+\textbf{Définition de la distance critique : }
+$$
+\boxed{d_{\text{crit}}= \min_\omega \vert 1 + \underbrace{L(j\omega)}_{Go(j\omega)} \vert = \dfrac{1}{\max_\omega \vert \frac{1}{1 + L(j\omega)} \vert}= \dfrac{1}{\parallel S \parallel_\infty}}
+$$
+
+D'autant plus \textbf{petit} la norme infinie (pic) de la fonction de \textbf{sensibilité} $S$, d'autant plus \textbf{éloigné} le \textbf{lieu de Nyquist} de $L$ par rapport au \textbf{point critique} $-1$, et d'autant plus \textbf{robuste} est la boucle fermée.
+
+\subsection{Théorème de Bode : limitations fondamentales}
+
+$$ \boxed{\int_0^\infty \text{ln} \vert S(j\omega) \vert d\omega = \begin{cases} 0 \\ \pi \cdot \Re(\text{pôles instables de } L(s)) \end{cases}} $$
+
+\textbf{Limitations fondamentales :}
+\begin{itemize}
+\item Cette limitation est valable indépendamment du régulateur choisi  !
+\item Conflit d'objectif (trade-off) entre performance et robustesse
+\item Système à régler instable plus difficile à régler qu'un système stable
+\item D'autant plus à droite le pôle instable, d'autant plus grave l'instabilité, et d'autant moins Robuste la boucle fermée
+\end{itemize}
+
+\figc{1}{261}
+
+Un système à réglé instable est d'autant plus difficile à régler que le pôles instable est rapide :\\
+
+\textbf{Exemple pendule inverse :}
+
+Les pôles du système sont : $p1 =\sqrt{\dfrac{m g}{l}}$ et $p2 = -p1 = -\sqrt{\dfrac{m g}{l}}$ \\
+Avec $l$ : longueur du bras du pendule.\\
+
+On peut noter le comportement suivant : $ \begin{cases} l \text{ diminue } : \quad l \searrow \quad \Rightarrow \quad \sqrt{\dfrac{m g}{l}} \nearrow \\[12pt] 
+l \text{ augmente } : \quad l \nearrow \quad \Rightarrow \quad \sqrt{\dfrac{m g}{l}} \searrow  \end{cases}$ \\
+
+Donc, plus le systèmes à réglé instable est rapide, plus il est difficile à régler.
+
+\subsubsection{Exemple à montrer : waterbed effect}
+
+\figc{0.8}{262}
+\figc{1}{263}
+
+\subsection{Stabilité interne d'une boucle fermée :les 4 fonctions de transfert doivent être stable}
+\figc{1}{264}
+
+\subsubsection{Compensation pôle / zéro acceptable ou non ?}
+\figc{1}{265}
+
+\begin{itemize}
+\item Il est strictement défendu d'essayer de compenser les pôles instable d'un système à régler à l'aide du régulateur.
+\item Il est fortement déconseiller de compenser les pôles et zéros proche de l'axe imaginaire (à l'intérieur de la bande passante) 
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+\end{document}
+

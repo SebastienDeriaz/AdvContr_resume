@@ -1,0 +1,273 @@
+\documentclass[document.tex]{subfiles}
+
+\begin{document}
+
+\section{S7 - Programme Advanced Control, cours 7}
+
+
+\subsection{Contenue}
+
+\figc{1}{166}
+
+\subsection{Rappel}
+
+\subsubsection{Structure de l'observateur}
+
+\figc{1}{167}
+
+\subsubsection{Dynamique de l'erreur de l'observateur complet}
+
+\figc{1}{168}
+
+\subsubsection{Critère de l'observabilité}
+
+\figc{1}{169}
+
+Un système est observable, s'il est toujours possible de calculer la condition initiale x[0] du vecteur d'état à partir des mesures y[0], y[1], ..., y[n-1] du signal de sortie sur une durée de n coups d'horloge.\\
+
+\subsubsection{Observabilité}
+
+\figc{1}{170}
+
+
+Un système est \textbf{observable} si le \textbf{rang} de la \textbf{matrice d'observabilité} $P_o$ est n\\
+En monovariable (SISO) : si $det(P_o)\neq 0$\\
+
+
+\textbf{Observabilité :}\\
+Où doit-on placer le \textbf{capteur} ("\textit{Observateur}")
+
+\textbf{Commandabilité :}\\
+Où doit-on placer l'\textbf{actionneur} ("\textit{Commande}")
+
+
+\subsection{Application : palier magnétique}
+
+Où placer les capteurs pour que les modes propres qui nous intéressent soient bien observables ?
+
+\figc{1}{171}
+
+
+\figc{1}{172}
+
+
+\subsection{LTR : Loop Transfer Recovery}
+
+\figc{1}{173}
+
+LTR (\textit{Loop Transfer Recovery}) est une méthode de choix des pondérations $Q$ et $R$ de l'observateur, permettant de récupérer la bonne robustesse du retour d'état :
+$$ \boxed{\phi_m > 60 \degres,\; A_m = [0.5 \; \ldots \; \infty]} $$
+
+\begin{center}
+\begin{tabular}{l l}
+$Q = \rho B B^T$ et $R=1$ & $\rho \longrightarrow \infty$ : Observateur rapide
+\end{tabular}
+\end{center}
+
+
+\textbf{\underline{Attention :} Ne fonctionne que pour les système à déphasage minimale !} \\
+
+\textbf{Système à déphasage minimal :}\\
+$\Leftrightarrow$ \textbf{Pas de zéro} dans le \textbf{demi-plan droite}.
+
+
+\subsubsection{lieu de Nyquist en fonction de $\rho$}
+
+\figc{1}{174}
+
+\subsection{Application : observateur de vitesse}
+
+\figc{1}{177}
+
+\subsubsection{Problème de la dérivée numérique}
+
+\figc{1}{178}
+
+\figc{1}{179}
+
+\subsubsection{Observateur de vitesse}
+
+\figc{1}{180}
+
+\subsubsection{Observateur de vitesse $=$ filtre complémentaire}
+
+Après un petit calcul (Exercice 8.1) :\\
+
+\figc{1}{181}
+
+\begin{tabular}{|l c l r|}
+\hline
+$F_1(s)$ & : & Filtre passe haut & (gain statique : $F_1(0)=0$)\\
+$F_2(s)$ & : & Filtre passe bas & (gain statique : $F_2(0)=1$) \\
+$F_1(s) + F_2(s)$ & : & Filtre complémentaire & ($F_1(s)+F_2(s) = 1$)\\\hline
+\end{tabular}
+
+Pour la synthèse des gains $H_1$ et $H_2$, on peut p.ex. faire un placement de pôles, et par soucis de simplicité placer un double pôle réel négatif.\\
+
+En jouant sur ce double-pôles, on modifie la pulsation de coupure des filtres complémentaires $F_1(s)$ et $F_2(s)$.\\
+
+\textbf{Cas extrêmes :}
+\begin{enumerate}
+\item \textbf{Double pôle très négatif} $\Rightarrow$ pulsation de coupure très élevée $\Rightarrow$  gains $H_1$ et $H_2$ très élevés $\Rightarrow$  $F_1(s) = 0$, $F_2(s) = 1$. \\
+On obtient le dérivateur de y(t) !
+\item \textbf{Double pôle proche de $0$} $\Rightarrow$ pulsation de coupure très basse $\Rightarrow$ gains $H_1$ et $H_2$ très bas $\Rightarrow$ $F_1(s) = 1$, $F_2(s) = 0$. \\
+On obtient l'intégrateur de u(t) !
+\end{enumerate}
+
+\subsection{Implémentation de régulateurs}
+\subsubsection{Conseil d'implémentation (1/2)}
+
+Aujourd'hui, environ $99\%$ des implémentations de régulateurs sont \textbf{numériques}.\\
+Avec de rares \textbf{exceptions} : 
+\begin{enumerate}
+\item \textbf{Bande passante très élevée}, où même des solutions FPGA seraient trop lentes
+\item \textbf{Exigences très faible bruit}
+\end{enumerate}
+
+\begin{itemize}
+\item Choix de la période d'échantillonnage $t_s$ 
+\item Problèmes liés à la numérisation dans le \textbf{temps}
+\item Problèmes liés à la quantification des \textbf{signaux}\\
+(No. bits des convertisseurs, word length, fixed point / floating point)
+\item Problèmes liés à la quantification des \textbf{paramètres} \\
+(word length, fixed point / floating point)
+\end{itemize}
+
+\subsubsection{Discrétisation dans le temps}
+
+\textbf{Il existe deux approches possibles :}
+
+\begin{enumerate}
+\item [\textbf{A}] : D'abord faire une synthèse "\textbf{analogique}" c-à-d "temps continu", et après coup, \textbf{numériser} le \textbf{régulateur} avec la méthode "\textbf{Tustin}" = "\textit{méthode des trapèzes}"\\
+$\rightarrow$ \textbf{Matlab} : \codeword{Gc\_num = c2d(Gc, h, 'tustin');} \\
+Fonctionne bien si la fréquence d'échantillonnage est élevée par rapport à la dynamique du système
+\item [\textbf{B}] : D'emblée travailler avec le modèle échantillonné du système à régler :\\ $\rightarrow$ \textbf{Matlab} :  \codeword{H = c2d(Ga, h, 'zoh');}\\
+D'abord numériser le système à régler, ensuite faire la synthèse en numérique. En règle générale plus précis, donne des meilleurs résultats si la fréquence d'échantillonnage est faible.\\
+Peut poser des problèmes numériques si la fréquence d'échantillonnage est très élevée.
+\end{enumerate}
+
+\subsubsection{Rappel : Méthode de \textit{Tustin}}
+
+\textbf{Approximation par une somme de trapèze :}
+
+$$ u \longrightarrow {\boxed{\int \; = \dfrac{1}{s}}} \longrightarrow y$$
+
+$$ \boxed{ y_k = y_{k-1} + h\cdot \dfrac{u_k + u_{k-1}}{2} } $$
+
+\begin{itemize}
+\item On remplace $\boxed{\dfrac{1}{s}}$ par $\dfrac{f(z+1)}{2(z-1)}$\\
+\item Remplacer $\boxed{S}$ par $\dfrac{2(z-1)}{h(z+1)}$
+\end{itemize}
+
+$\boxed{G_{ca} = tf(\cdots,\cdots)}$ \hfil \textbf{MatLab} : \codeword{c2d(gca,h,'tustin');}
+
+$$ u[k]\longrightarrow\boxed{D/A}\longrightarrow \boxed{G_a(s)} \overbrace{\longrightarrow}^{u(t)} \boxed{A/D} \overbrace{\longrightarrow}^{y(t)} y[k]$$
+
+\figc{1}{182}
+
+$$y[k] \longrightarrow \boxed{H(z)} \longrightarrow y[k] $$
+
+\textbf{Attention : }\\
+\begin{itemize}
+\item Si \underline{$h$} est \textbf{très petit} $\rightarrow$ privilégié la méthode \textbf{A}
+\item Si \underline{$h$} est plutôt \textbf{grand} $\rightarrow$ privilégié la méthode \textbf{B}   
+\end{itemize}
+
+\subsubsection{Modèle échantillonné du système à régler}
+
+\figc{1}{183}
+
+\begin{center}
+\textbf{Trouver $H(z)$ à partir de $G_a(s)$}
+\end{center}
+
+\subsubsection{Calcul du modèle échantillonné dans l'espace d'état}
+
+\figc{1}{184}
+
+$$A_d = e^{A_a\cdot h}$$
+$$B_d=\int_{0}^{h}e^{A_a \cdot \tau}B \; d\tau$$
+
+$$
+\begin{cases}
+\vec{x}[k+1]=A_d\vec{x} [k]+B_d u[k] \\
+y[k] = C_d \vec{k} + D_d u[k]
+\end{cases} 
+$$
+
+\subsection{Conseils pour l'implémentation               (2/2)}
+\begin{itemize}
+\item \textbf{Simuler d'abord l'effet de quantification }(word length) \codeword{Matlab/Simulink} : "fixed point toolbox" avant d'implémenter.
+\item \textbf{Simuler également l'effet de bruit de mesure et l'effet d'incertitude dans les paramètres du système à régler} (erreurs de modélisation) avant d'implémenter.
+\item \textbf{La génération de code automatique} peut simplifier l'implémentation (\codeword{Matlab Coder/Embedded Coder/Simulink Coder})
+\item \textbf{Si le régulateur comprend un intégrateur pur (}action I), séparez celui-ci, et implémenter de manière séparée avec anti-windup et monitorage (seuil pour déclencher warning etc.)
+\item \textbf{Éviter les "formes canoniques commandable/observable"} c-à-d ne pas travailler avec les coefficients des polynômes surtout si l'ordre du régulateur est élevé. Le problème numérique fût observé la première fois par \textit{Wilkinson}.
+\item \textbf{Implémentation dans l'espace d'état avec des matrices pleines} est nettement mieux conditionné, mais le temps de calcul est lourd.
+\item \textbf{Bon compromis :} implémentation "\textit{BIQUAD}" : mise en cascade de systèmes d'ordre 2, regroupement de pôles et zéros proches dans le même étage \textit{BIQUAD}
+\end{itemize}
+
+\subsubsection{Biquad - mise en cascade de fonctions de transfert  d'ordre 2 }
+
+\figc{0.8}{185}
+
+L'avantage de l'implémentation \textit{Biquad} est qu'elle est numériquement plus stable.\\
+
+\textbf{Numériquement stable : }\\
+Un système est numériquement stable si la matrice du système comporte le moins possible, et au mieux aucun zéros. Cela évite les erreurs d'arrondis dû aux méthodes de résolutions numériques.\\
+
+\subsection{Motivation : valeurs singulières d'une matrice}
+
+\begin{itemize}
+\item Comment déterminer si un système est bien commandable ?\\
+(notion quantitative, pas seulement oui/non)
+\item Comment déterminer de manière robuste le rang d'une matrice ?\\
+(le résultat devrait pas dépendre de petites erreurs de modélisation)
+\item Déterminer si l'inversion d'une matrice est bien conditionnée ?
+\item Pour un système multivariable (MIMO) qu'est-ce qu'il faudrait tracer dans le diagramme de Bode comme équivalent du module ?
+\end{itemize}
+
+$$\boxed{\text{valeurs singulières d'une matrice = amplification directionnelle !}}$$
+
+\subsection{Rappel normes : à quoi ça sert...}
+
+\figc{1}{186}
+
+\subsubsection{Normes de vecteurs}
+
+\figc{1}{189}
+
+\subsubsection{Normes de matrices}
+
+
+
+\figc{1}{191}
+ 
+ $\sigma_1$ valeur singulière la plus élevé, demi axe paraboloïde la plus élevé $\rightarrow$ amplification maximal !
+
+\subsection{Décomposition en valeurs singulières (SVD)}
+
+$$ \begin{array}{l l}
+\textbf{M} = \textbf{U} \textbf{S} \textbf{V}^T & [\text{U, S, V}]=\text{svd}(\textbf{M}) \\
+m \times n \; (m \times m)(m \times n)(n \times n)
+\end{array} $$\\
+
+Avec : \textbf{U} et \textbf{V} : matrices orthogonales (unitaires)
+$$ 
+\begin{array}{c c}
+	\begin{array}{l}
+		\textbf{U}^T \textbf{U} = \textbf{I} \\
+		\textbf{V}^T \textbf{V} = \textbf{I} \\[24pt]
+		\textbf{Valeurs singulières :} \\
+		\sigma_1 \geq \sigma_2 \geq \cdots \geq \sigma_n \geq 0 \\
+	\end{array}
+& 
+\textbf{S} = 
+	\overbrace{\begin{rcases}\begin{bmatrix}
+	\sigma_1 & 0 & \cdots & 0 \\ 0 & \sigma_2 & \cdots & 0 \\ \cdots & 0 & \cdots & 0 \\ 0 & 0 & \cdots & 0 \\ 0 & 0 & \cdots & \sigma_n \\ 0 & 0 & 0 & 0 
+	\end{bmatrix}\end{rcases}}^{n \text{ col.}} m \text{ lignes}
+\end{array} 
+$$
+
+
+
+\end{document}
