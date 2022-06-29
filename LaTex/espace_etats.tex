@@ -166,4 +166,29 @@ $$\det(sI-A_{bf})=(s-p_1)(s-p_2)\cdots(s-p_n)$$
 
 \subsection{Retour d'état}
 $$A_{bf}=A-BK$$
+
+\subsection{Observateur}
+Matrice $A$ de l'observateur (pour le calcul des pôles)
+$$A_{obs}=A-HC$$
+\begin{center}
+\includegraphics[width=\columnwidth]{drwg_5.pdf}
+\end{center}
+La fonction de transfert du régulateur est
+
+$$G_c(s)=\frac{U(s)}{E(s)}=K\left(sI-A+BK+HC\right)^{-1}H$$
+
+
+\subsubsection{Filtre}
+Si il faut exprimer un filtre, par exemple $\hat{X}_2=\cdots$, il faut commencer par décrire $\hat{X}_1$ en fonction du reste puis résoudre le système (en tout cas dans l'exercice 8.1).\\
+Les pôles de l'observateur dans ce cas peuvent se baser sur le dénominateur de la fonction de transfert (si elle est donnée ou calculée).
+
+\subsubsection{Trajectoire}
+$$\boxed{\hat{x}[k+1]=Ax[k] + Bu[k] + H\left(y[k] - \hat{y}[k]\right)}$$
+
+
+
+
+
+
+
 \end{document}
