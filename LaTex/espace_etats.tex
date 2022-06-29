@@ -9,6 +9,7 @@
 \includegraphics[scale=1,page=1]{drwg_0.pdf}
 \end{figure}
 \subsection{Choix des variables d'état}
+Les variables d'état sont les variables qui ont leurs dérivée dans les équations.
 \begin{itemize}
 \item Condensateur : tension
 \item Bobine : courant
@@ -30,7 +31,9 @@ $$G(z)=C_n(zI-A_n)^{-1}B_n+D_n$$
 \subsubsection{Gain haute fréquence}
 $$\lim_{s\to\infty}G(s)=D$$
 \subsubsection{Gain basse fréquence (gain statique)}
-$$G(0)=-CA^{-1}B+D$$
+Analogique : $$G(s=0)=-CA^{-1}B+D$$
+Numérique  : $$G(z=1)=-C(I-A)^{-1}B+D$$
+
 \subsection{$G\longrightarrow A,B,C,D$}
 On utilise la forme commandable
 $$G(s)=\frac{b_2s^2+b_1s+b_0}{s^3+a_2s^2+a_1s+a_0}$$
@@ -46,6 +49,12 @@ C&=\begin{bmatrix}b_0 & b_1 & b_2\end{bmatrix} & D&=0\end{split}}$$
 \includegraphics[scale=1,page=1]{drwg_1.pdf}\\
 \includegraphics[scale=1,page=2]{drwg_1.pdf}
 \end{figure}
+
+\subsection{Conversion analogique vers numérique}
+$$A_d = e^{A_a\cdot h}$$
+$$B_d = \int_0^h e^{A_a\cdot\tau}B_a d\tau$$
+$$C_d = C_a$$
+$$D_d = D_a$$
 
 \subsection{Mise en cascade}
 \begin{figure}[H]
@@ -81,9 +90,13 @@ C_1 & C_2
 \centering
 \includegraphics[scale=1,page=4]{drwg_0.pdf}
 \end{figure}
-$$A_{tot}=\begin{bmatrix} A_1 - B_1D_2(I-D_1D_2)^{-1}C_1 & -B_1(C_2-D_2D_1C_2)\\B_2(I-D_1D_2)^{-1}C_1 & A_2-B_2(I-D_1D_2)^{-1}D_1C_2\end{bmatrix}\qquad B_{tot}=\begin{bmatrix}B_1-B_1D_2ND_1\\B_2ND_1\end{bmatrix}$$
+$$A_{tot}=\begin{bmatrix} A_1 - B_1D_2(I-D_1D_2)^{-1}C_1 & -B_1(C_2-D_2D_1C_2)\\B_2(I-D_1D_2)^{-1}C_1 & A_2-B_2(I-D_1D_2)^{-1}D_1C_2\end{bmatrix}$$
 
-$$C_{tot}=\begin{bmatrix}(I-D_1D_2)^{-1}C_1 & -(I-D_1D_2)^{-1}D_1C_2\end{bmatrix}\qquad D_{tot}=(I-D_1D_2)^{-1}D_1$$ 
+$$B_{tot}=\begin{bmatrix}B_1-B_1D_2ND_1\\B_2ND_1\end{bmatrix}$$
+
+$$C_{tot}=\begin{bmatrix}(I-D_1D_2)^{-1}C_1 & -(I-D_1D_2)^{-1}D_1C_2\end{bmatrix}$$
+
+$$D_{tot}=(I-D_1D_2)^{-1}D_1$$ 
 
 \subsubsection{Mise en contre-réaction 2}
 \begin{figure}[H]

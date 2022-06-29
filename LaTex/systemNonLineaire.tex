@@ -1,0 +1,30 @@
+\documentclass[resume]{subfiles}
+\begin{document}
+\section{Système non linéaire}
+
+\subsection{sans action de l'entrée}
+$$\dot{\vec{x}} = \vec{f}(\vec{x})$$ linéarisé autour d'un point de fonctionnement.
+
+$\vec{f}(\vec{x_e})= \vec{0}$ avec $\Delta\vec{x} = \vec{x}-\vec{x_e}$ alors on a $\dot{\Delta\vec{x}} = A \cdot\Delta\vec{x}$ ou $A$ est la matrice jacobienne
+
+\paragraph{}
+Stabilité locale: on prend le système linéarisé  $\dot{\Delta\vec{x}} = A \cdot\Delta\vec{x}$ et on calcul les pôles du système si la partie réel des valeurs propre est négative. $\lambda_k = det(\lambda I-A)$ 
+
+\begin{itemize}
+\item système linéarisé stable => point d'équilibre du système non-linéaire \textbf{localement stable}.
+\item système linéarisé instable => point d'équilibre du système non-linéaire est localement instable.
+\item système linéaire marginalement stable => aucune information sur la stabilité du système non-linéaire.
+\end{itemize}
+
+\subsection{avec l'action de l'entrée}
+$$\dot{\vec{x}} = \vec{f}(\vec{x}, u),\space \vec{f}(\vec{x_e},u_e)=\vec{0}$$
+$$A = \frac{\partial\vec{f}}{\partial\vec{x}}\big|_{\vec{x_e},u_e}$$
+$$B = \frac{\partial\vec{f}}{\partial u}\big|_{\vec{x_e},u_e}$$
+
+$$\dot{\Delta\vec{x}} = A \cdot\Delta\vec{x}+ B\cdot\Delta u$$
+Si plusieurs entrées alors $u$ peut être un vecteur aussi.
+
+
+
+
+\end{document}

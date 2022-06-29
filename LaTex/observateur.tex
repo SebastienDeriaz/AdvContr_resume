@@ -1,0 +1,40 @@
+\documentclass[resume]{subfiles}
+
+\begin{document}
+\section{Observateur}
+
+\subsection{Observateur trivial}
+L'erreur est $\dot{x}_e=Ax_e$ ce qui donne $x_e(t)=e^{At}x_{e,0}$ donc converge si les valeurs propres de A sont toutes négatives.
+
+\subsection{Observateur complet}
+
+erreur = $x_e = (x - \hat{x})$ la dynamique de l'erreur est donc $\dot{x}_e = (A-HC)x_e$ 
+$A_{obs} = (A-HC)$ avec H libre
+Convergence si toutes les la valeurs propres ont une partie réelle négative.
+
+\subsection{Dynamique du système}
+$$
+\begin{cases}
+\hat{x}[k+1] = A\hat{x}[k]+Bu[k]+H(y[k]-\hat{y}[k])\\
+\hat{y}[k] = C\hat{x}[k]+Du[k]
+\end{cases}
+$$
+
+\subsection{Séparation }
+$$
+\begin{bmatrix}
+\dot{x}\\
+\dot{\hat{x}}
+\end{bmatrix} = 
+\begin{bmatrix}
+A-BK & BK\\
+0 & A-HC
+\end{bmatrix}
+\begin{bmatrix}
+x\\
+\hat{x}
+\end{bmatrix}
+$$
+
+Les pôles de la boucle fermée sont composés des pôles de la synthèse du retour d'état K et de la synthèse de l'observateur H.
+\end{document}
