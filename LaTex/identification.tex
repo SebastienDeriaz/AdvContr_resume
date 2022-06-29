@@ -1,0 +1,67 @@
+\documentclass[resume]{subfiles}
+
+
+\begin{document}
+\section{Identification}
+\subsection{Méthode des moindres carrés}
+\begin{enumerate}
+\item Poser une représentation du système en $z$
+\item Décomposer en équation aux différences
+\item Poser l'équation à résoudre avec les moindres carrés
+\item Effectuer la pseudo-inverse pour résoudre
+\end{enumerate}
+Par exemple, la fonction de transfert
+$$G(z)=\frac{b}{z-a}$$
+Se traduit en
+$$y[k]=ay[k-1]+bu[k-1]$$
+Et donc
+$$\Theta=\begin{bmatrix}
+a\\b
+\end{bmatrix}$$
+$$\Phi=\begin{bmatrix}\\
+y[k-1] & u[k-1]\\
+\\
+\end{bmatrix}$$
+Et on résout
+$$\Phi\Theta=y\Longrightarrow \boxed{\Theta=\Phi^{+}y}$$
+$$\boxed{\Phi^+=\left(\Phi^T\Phi\right)^{-1}\Phi^T}$$
+\subsubsection{Identification dans le domaine de $s$ ou $z$}
+Il est aussi possible de faire une identification en posant une équation de la forme
+$$Ga_1z+Ga_2-b_0z-b_1=-Gz^2$$
+Ce qui permet de construire la matrice $\Theta$ des inconnues, et la matrice $\Phi$ des valeurs connues.
+$$\Phi=\begin{bmatrix}\\
+Gz& +G& -z& -1\\
+\\\end{bmatrix}$$
+
+$$\Theta = \begin{bmatrix}a_1\\a_2\\b_0\\b_1\end{bmatrix}$$
+Attention ! Pour avoir un résultat réel à la fin pour $\Theta$, il faut utiliser le complexe conjugué
+
+$$\Phi'=\begin{bmatrix}\Phi\\\Phi^\ast\end{bmatrix}\qquad y'=\begin{bmatrix}y\\y^\ast\end{bmatrix}$$
+\subsection{Filtres}
+\begin{itemize}
+\item Passe-bas
+$$H(j\omega)=\frac{1}{1+\frac{1}{Q}j\frac{\omega}{\omega_0}+\left(j\frac{\omega}{\omega_0}\right)^2}$$
+$$G(z)=\frac{b_0z+b_1}{z^2+a_1z+a_2}$$
+\item Passe-haut
+$$H(j\omega)=\frac{\left(j\frac{\omega}{\omega_0}\right)^2}{1+\frac{1}{Q}j\frac{\omega}{\omega_0}+\left(j\frac{\omega}{\omega_0}\right)^2}$$
+\item Passe-bande
+$$H(j\omega)=\frac{\frac{1}{Q}j\frac{\omega}{\omega_0}}{1+\frac{1}{Q}j\frac{\omega}{\omega_0}+\left(j\frac{\omega}{\omega_0}\right)^2}$$
+\item Coupe-bande
+$$H(j\omega)=\frac{1-\left(\frac{\omega}{\omega_0}\right)^2}{1+\frac{1}{Q}j\frac{\omega}{\omega_0}+\left(j\frac{\omega}{\omega_0}\right)^2}$$
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
