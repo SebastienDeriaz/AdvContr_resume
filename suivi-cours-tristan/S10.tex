@@ -1,0 +1,137 @@
+\documentclass[document.tex]{subfiles}
+
+\begin{document}
+
+\section{S10 - Système non-linéaire - Identification}
+
+\subsection{Contenu}
+\begin{enumerate}
+\item Rappel cours 9, exercices série 9
+\item Modèle échantillonné dans l'espace d'état avec un retard non multiple entier de h 
+\item Identification
+\end{enumerate}
+
+\subsection{Rappel Cours S9}
+
+\subsubsection{Linéarisation d'un système non-linéaire avec entrée}
+
+\textbf{Rappel : }\\
+Un point d'équilibre signifie que la dérivé $\dot{x}$ qui correspond au point de fonctionnement $\vec{f}(\vec{x}_e,u_e)$ est nul. Soit : $\boxed{\vec{f}(\vec{x}_e,u_e) = 0}$\\
+
+$$
+\begin{array}{c c c}
+\text{Système non-linéaire} & \quad \quad \quad \quad \quad \quad  & \text{Sytème linéarisé}\\
+\dot{\vec{x}}=\vec{f}(\vec{x},u) & \longrightarrow & \dot{\overrightarrow{\Delta x}} = A \Delta x + B \Delta u
+\end{array}
+$$
+
+\textbf{Méthode en résumé}
+\begin{enumerate}
+\item Trouver les points d'équilibre du système : $\boxed{\vec{f}(\vec{x}_e,\vec{u}_e)= \vec{0}}$ 
+\item Calculer les Jacobien du système : 
+$$
+\boxed{A = \dfrac{\partial \vec{F}}{\partial \vec{x}} = J_{A} = \begin{bmatrix} \frac{\partial F_1}{\partial x_1} & \frac{\partial F_1}{\partial x_2} & \ldots & \frac{\partial F_1}{\partial x_n}\\ \vdots & \vdots & \ldots & \vdots \\ \frac{\partial F_n}{\partial x_1} & \frac{\partial F_n}{\partial x_2} & \ldots & \frac{\partial F_n}{\partial x_n} \end{bmatrix}} \quad \quad \quad \boxed{B = \dfrac{\partial \vec{F}}{\partial u} = J_{B}= \begin{bmatrix} \frac{\partial F_1}{\partial u} \\  \frac{\partial F_2}{\partial u} \\ \vdots \\ \frac{\partial F_n}{\partial u} \end{bmatrix}} $$
+\item Linéariser le système au autours des points d'équilibre en évaluant le Jacobien du système au point d'équilibre $x_{e1},x_{e2},\ldots$ 
+$$
+\boxed{ J\big\vert_{x_{en}}= \begin{bmatrix} \frac{\partial F_1}{\partial x_1} & \frac{\partial F_1}{\partial x_2} \\ \frac{\partial F_2}{\partial x_1} & \frac{\partial F_2}{\partial x_2}  \end{bmatrix} \Bigg\vert_{x_{en}}}
+$$
+\item Le système linéaire trouvé est décrit par :
+$$
+\boxed{\dot{\overrightarrow{\Delta x}} = A \Delta x + B \Delta u}
+$$
+\item Est-ce que le point d'équilibre évalué $x_{ek}$ est localement stable ?\\
+\textbf{Rappel : } Si le \textbf{système linéarisé} est \textbf{globalement stable} $\rightarrow$ Le \textbf{système non-linéaire} est \textbf{localement stable} au point d'équilibre évalué.\\
+Le système linéarisé est stable si ces valeurs propres $\lambda_k$ se trouvent dans le demi plan gauche $\Rightarrow$ $\boxed{\text{Re}(\lambda_k)<0}$.
+\item \textbf{Astuce} : Si la matrice du système linéarisé est triangulaire $\longrightarrow$ les valeurs propres correspondent à la diagonal de la matrice :
+$$
+\lambda_k \Rightarrow det(\lambda I-M) = 0 \Rightarrow det(\begin{bmatrix} \lambda - a & 0 & 0 \\ b & \lambda - c & 0 \\ d & e & \lambda - f \end{bmatrix} = 0 \Rightarrow \begin{cases} \lambda_1 = a \\ \lambda_2 = c \\ \lambda_3 = f \end{cases}
+$$
+\end{enumerate}
+
+\figc{0.8}{226}
+
+\subsubsection{Redressement de la non-linéarité : "feedback linearization"}
+
+\figc{1}{227}
+
+\subsubsection{Effets observés dans les systèmes non-linéaires}
+
+\figc{1}{228}
+
+\figc{1}{229}
+
+On peut observer le phénomène de cycles limites dans les systèmes numériques. En effet les convertisseur AD/DA sont non linéaire et un peut observer un comportement de cycles limites sur les bits de poids faible.
+
+\subsection{Calcul de $H(z)$ basé sur la réponse impulsionnelle}
+
+\figc{1}{230}
+
+\subsection{Propriétés du "modèle échantillonné"}
+
+\begin{enumerate}
+\item Les pôles analogiques $𝑠$ se transforment selon $z= e^(h s)$\\
+Il n'y a pas de formule pour la transformation des zéros.
+\item Le gain statique est préservé : $H(z=1)  =  G_a (s=0)$
+\item Le modèle échantillonné $H(z)$ est linéaire en $G_a(s)$ \\
+Une somme $G_{a1} (s) + G_{a2}(s)$ donne $H_1(z) + H_"(z)$\\
+\textbf{Attention :} Pas valable pour un produit !
+\item Un retard pur d'un multiple entier $N$ de périodes d'échantillonnages côté analogique, $e^{-N h}$ donne lieu à un facteur $z^{-N}$ dans le modèle échantillonné.
+\end{enumerate}
+
+\textbf{Retard pur analogique : } Difficile à traiter $\Rightarrow$ $\boxed{e^{-T_r \cdot j \omega}=e^{-T_r \cdot s}}$
+$$
+e^{-T_r \cdot s} \underbrace{\approx}_{\text{approx Padé}} \dfrac{1-\frac{T_r}{2}\cdot s}{1-\frac{T_r}{2}\cdot s}
+$$
+
+$$
+	\vert e^{-j\omega T_r} \vert = 1 \quad \quad \quad \vert e^{j \phi} \vert = 1
+$$
+
+$$
+\phi = arg(e^{-T_r \cdot j \omega}) = -T_r \cdot \omega
+$$
+
+
+\subsection{Calcul du modèle échantillonné dans l'espace d'état avec un retard non multiple entier de la période d'échantillonnage}
+
+
+\figc{1}{231}
+
+On convolu le signal d'entrée $u$ par la condition initiale.
+
+\figc{1}{232}
+
+\subsubsection{Sans retard}
+
+$$
+\begin{cases}
+x[k+1] = A_n x[k] + B_n u[k]
+y[k] = c_n x[k]
+\end{cases}
+$$
+
+$$
+\begin{array}{l}
+\boxed{A_n = e^{A h}} \quad \quad \quad \boxed{B_n = \int^h_0 e^{A \tau} B d\tau} \quad \quad  \quad \boxed{C_n = C}
+\end{array}
+$$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

@@ -1,0 +1,251 @@
+\documentclass[document.tex]{subfiles}
+
+\begin{document}
+
+\section{S4}
+
+\subsection{Contenue cours S4}
+
+\begin{enumerate}
+\item Rappel cours 3, exercices série 3
+\item Réalisation minimale d'un système
+\item Application de méthodes d'optimisation dans la régulation 
+\item Formes quadratiques
+\item Retour d'état par la méthode LQR
+\item Équation de Riccati, cas temps continu
+\item Équation de Riccati, cas temps discret
+\item Exemple ordre 1
+\end{enumerate}
+
+\subsection{Rappels cours 3}
+
+\begin{itemize}
+\item Retour d'état
+\item Placement de pôles pour le dimensionnement du retour d'état
+\item Commandabilité
+\item Forme commandable
+\end{itemize}
+
+\subsection{Retour d'état  « \textit{state feedback} »}
+
+\textbf{Rendre la boucle fermée \underline{stable} avec une « \textit{dynamique} » appropriée}
+
+\figc{1}{74}
+
+\subsection{Commandabilité}
+
+\figc{1}{75}
+
+La commandabilté  signifie que n'importe quel point de l'espace d'états est atteignable.
+
+\subsubsection{Critère algébrique pour la commandabilité}
+
+\figc{0.9}{76}
+
+Un système $[A,B]$ est commandable si sa matrice de commandabilité associée
+$P_c$ est de rang $n$.\\
+Si la matrice est rectangulaire, il faut qu'elle soit de rang $n$, ce qui signifie qu'il y a au moins $n$ colonnes linéairement indépendante. Pour rappel, $n$ est le nombre de ligne du vecteur de commande $\vec{u}$.
+
+\subsubsection{Forme commandable}
+
+\figc{1}{77}
+
+\subsection{Réalisation minimale}
+
+Un système $[A, B, C, D]$ ayant $n$ variables d'état est appelé une « \textit{réalisation minimale }», si on n'arrive pas à trouver une autre réalisation avec moins de $n$ variables d'état, donnant lieu au même comportement entrée-sortie. \\
+
+Cette propriété importante est exigée pour l’application de toutes les méthodes de synthèse basée sur un modèle. \\
+
+Un théorème important dit : Une réalisation $[A, B, C, D]$ est \underline{minimale} si $[A, B]$ est \underline{commandable} et $[A, C]$ \underline{observable} (cette dernière propriété sera traîtée prochainement). \\
+
+Pour un système monovariable (SISO), on peut facilement depuis une fonction de transfert ayant aucun \underline{pôle et zéro en commun} trouver une réalisation minimale (p.ex. forme commandable).
+
+Pour les systèmes multivariables (MIMO), c'est beaucoup plus difficile, la théorie complète existe, mais n'est pas traitée ici.
+
+\subsubsection{Exercice 4.2}
+
+\figc{0.8}{78}
+
+\subsection{Motivation : formes quadratiques}
+
+
+La régulation avancée est basée sur :
+\begin{itemize}
+\item L'utilisation explicite d'un \textbf{modèle} dans la synthèse du régulateur
+\item L'utilisation d'un critère \textbf{d'optimalité} (on cherche le meilleur compromis). On veut minimiser une fonction coût.\\
+\end{itemize}
+
+\textbf{Les fonctions coût qu'on vise à minimiser sont souvent des « \textit{formes quadratiques} »}\\
+
+\textbf{Pourquoi ?}\\
+Trouver le minimum d'une fonction revient à annuler sa dérivée, et le gradient d'une forme quadratique est une fonction linéaire $\rightarrow$ solution analytique
+
+\subsection{Rappel des formes quadratiques dans $\mathbb{R}^n$}
+
+Une forme quadratique est un polynôme homogène de degré 2 à plusieurs variables. Exemples :
+
+\figc{0.6}{79}
+
+La norme euclidienne au carré est un autre exemple d'une forme quadratique :
+
+\begin{equation}
+\vline \; \vline (x,y,z) \vline \; \vline^{\;2} = x^2 + y^2 + z^2
+\end{equation}
+
+\textbf{Une forme quadratique est définie avec l'aide d'une matrice M \underline{symétrique}}
+
+\begin{equation}
+\begin{array}{c | c}
+\text{\textbf{Symetrique}} & \text{\textbf{Antisymétrique}} \\[2pt] \hline \; \\[-8pt] 
+M = M^T & M = -M^T \\
+\; & M = \begin{bmatrix} 0 & M_{12} \\ -M_{12} & 0 \end{bmatrix} \\[12pt]
+\; &  x^TMx = \textcolor{red}{0}
+\end{array}
+\end{equation}
+
+\begin{equation}
+\begin{array}{c}
+M = \begin{bmatrix} M_{11} & M_{12} \\ M_{21} & M_{22} \end{bmatrix}, \; x = \begin{bmatrix}
+x_1 \\ x_2 \end{bmatrix} \\[24pt]
+x^T M x = \begin{bmatrix} x_1 x_2 \end{bmatrix} \cdot \begin{bmatrix} M_{11} x_1 & M_{12} x2 \\ M_{21} x_1 & M_{22} x_2 \end{bmatrix} \\[24pt]
+x^T M x =\underbrace{M_{11} x_1^2 + 2 M_{12}x_1 x_2 + M_{22} x_2^2}_{\text{Polynome homogène de degrée 2}}
+\end{array}
+\end{equation}
+
+\textbf{Cas général :}
+
+\begin{equation}
+Q(x_1,\ldots,x_n)=\sum_{i=1}^n \sum_{i=1}^n m_{i j}x_1 x_j = x^t M x
+\end{equation}
+
+Une matrice antisymétrique avec diagonale nulle ne génère aucune contribution à la forme quadratique.
+
+
+\subsection{Formes quadratiques définies}
+
+\figc{0.7}{80}
+
+On aimerait savoir si le résultat est positif pour tout vecteur x.
+
+\figc{0.9}{81}
+
+\subsection{Matrices définies positives}
+
+On écrit  $M > 0$  si  $x^t M x>0$, $ \forall x \neq 0$ \\
+
+La forme quadratique donne une surface courbée vers le haut partout :
+
+\figc{0.4}{82}
+
+\subsection{Critère de Sylvester pour déterminer si $M = M^t > 0$}
+
+Une matrice symétrique est définie positive, si tous les mineurs diagonaux principaux sont positifs, en partant du coin supérieur gauche. Exemple :
+
+\figc{0.6}{83}
+
+\subsection{Propriété d'une matrice symétrique définie positive}
+
+Toutes les valeurs propres d'une matrice symétrique définie positive sont réels et positifs.\\
+
+Cette propriété est une condition nécessaire et suffisante.
+
+\subsection{Matrices semi-définies positives}
+
+On écrit $ M \geq 0$  si  $x^t M x \geq 0$,  $\forall x \neq 0$ \\
+
+La forme quadratique donne une surface courbée vers le haut presque partout, mais il y a des directions dans lesquelles la courbure est nulle !
+
+\figc{0.5}{84}
+
+\subsection{Catégories de matrices}
+
+\begin{itemize}
+\item Semi-définie positive : Forme quadratique $x^t M x \geq 0$, courbure positive
+\item Définie positive : Forme quadratique positive pour chaque x, courbure positive
+\item Semi-définie négative : Forme quadratique $x^t M x \leq 0$, courbure négative
+\item Définie négative : Courbure négative partout
+\item Indéfinie (point de selle): Forme de selle, courbe positive et négative
+\end{itemize}
+
+\subsection{Motivation LQR (\textit{Linear Quadratic Regulator})}
+
+\figc{0.8}{85}
+
+La quantité $\boxed{\int_0^\infty x^2(t)dt}$ traduit les défauts du régime transitoire.
+
+
+\subsection{Qualité du régime transitoire en boucle fermée}
+
+
+\figc{0.9}{86}
+
+\subsection{Le prix à payer  ...}
+
+\figc{0.9}{87}
+
+\subsection{LQR (\textit{Linear Quadratic Regulator})}
+
+
+\figc{0.9}{88}
+
+\subsection{Solution LQR analogique - équation de Riccati}
+
+\textbf{Rappel :}
+\begin{itemize}
+\item \underline{Q} : Pondère le régime transitoire (\textbf{rapidité}) 
+\item \underline{R} : Pondère l'énergie nécessaire du signal de contrôle $u$ (\textbf{Consommation})
+\end{itemize}
+\begin{center}
+\tbox{\textbf{Il faut donc faire un compromis entre $Q$ et $R$.}}
+\end{center}
+
+\figc{0.9}{89}
+
+\subsection{Propriétés de la régulation LQR}
+
+\figc{0.9}{90}
+
+\subsection{Un choix pour la matrice de pondération Q}
+
+Au lieu de pénaliser le régime transitoire du vecteur d'état x(t), on peut aussi pénaliser un signal de sortie mesuré y(t).
+
+
+\figc{0.4}{91}
+
+\subsection{\textit{Cheap control - expensive control}}
+
+\begin{itemize}[$\bullet$]
+\item Le cas extrême : $R = 0$ est appelé « \textbf{\underline{cheap control}} » \\
+$\rightarrow$ Le gain du retour d'état va tendre vers infini !
+
+\item L'autre cas extrême : Q = 0 est appelé « \textbf{\underline{expensive control}} » \\
+$\rightarrow$ Il montre une propriété remarquable, voir exercice 10 du polycopié anglais « state regulator », énoncé page 54.
+\end{itemize}
+
+
+\subsection{DLQR (\textit{Discrete Linear Quadratic Regulator})}
+
+\figc{0.9}{92}
+
+\textbf{Fonction coût à minimiser (indice de performance) : }
+
+\figc{0.9}{93}
+
+\subsection{Solution LQR discret - équation de Riccati}
+
+\figc{0.9}{94}
+
+\subsection{Remarques}
+
+\figc{1}{95}
+
+\subsubsection{Exercice 10, p. 54 polycopié anglais}
+
+
+\figc{1}{96}
+\figc{1}{97}
+\figc{1}{98}
+\figc{1}{99}
+
+
+\end{document}

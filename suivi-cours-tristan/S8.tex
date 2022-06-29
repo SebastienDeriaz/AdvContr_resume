@@ -1,0 +1,247 @@
+\documentclass[document.tex]{subfiles}
+
+\begin{document}
+
+\section{S8 - Valeurs singulières et vecteurs singuliers}
+
+\subsection{Contenu du cours}
+
+\begin{enumerate}
+\item Rappel cours 7, exercices série 7
+\item Valeurs singulières, décomposition SVD
+\item Introduction systèmes non-linéaires
+\begin{itemize}
+\item Points d'équilibre
+\item Linéarisation autour d'un point d'équilibre
+\end{itemize}
+\end{enumerate}
+
+\subsection{Rappel cours 7}
+
+\subsubsection{Deux approches pour la synthèse d'un régulateur numérique}
+
+\figc{1}{187}
+
+\subsubsection{Modèle échantillonné du système à régler}
+
+\figc{1}{188}
+
+$$ \boxed{\text{trouver $H(z)$ à partir de $G_a(s)$
+}} $$
+
+\subsubsection{Motivation : valeurs singulières d'une matrice}
+
+\begin{itemize}
+\item Comment déterminer si un système est bien commandable ?\\
+(notion quantitative, pas seulement oui/non)
+\item Comment déterminer de manière robuste le rang d'une matrice ?\\
+(le résultat devrait pas dépendre de petites erreurs de modélisation)
+\item Déterminer si l'inversion d'une matrice est bien conditionnée ?
+\item Pour un système multivariable (MIMO) qu'est-ce qu'il faudrait tracer dans le diagramme de Bode comme équivalent du module ?
+\end{itemize}
+
+$$\boxed{\text{valeurs singulières d'une matrice = amplification directionnelle !}}$$
+
+
+\subsection{Rappel normes : à quoi ça sert...}
+
+\figc{1}{186}
+
+\subsubsection{Normes de vecteurs}
+
+\figc{1}{189}
+
+\subsection{Image du cercle unité (hypersphère unité)}
+
+\figc{1}{190}
+
+\subsection{Normes de matrices}
+
+\figc{1}{191}
+ 
+ $\boxed{\sigma_1}$ : Valeur singulière la plus élevé, demi axe paraboloïde la plus élevé $\rightarrow$ amplification maximal !
+ 
+\subsection{Amplification maximale et minimale}
+
+\figc{0.8}{192}
+
+\subsubsection{Cas particuliers}
+
+$$\textbf{M} \in \mathbb{R}^{2\times 1} $$
+$$ x \in \mathbb{R} \longleftrightarrow x\begin{bmatrix}
+\textbf{M}_1 \\ \textbf{M}_2
+\end{bmatrix} $$
+
+\figc{1}{193}
+
+\subsubsection{repères orthonormés - matrices orthogonales}
+
+\textbf{Repères orthonormés :}\\
+Un repère orthonormés est un ensemble de vecteurs qui sont mutuellement perpendiculaire dont chaque vecteur est un vecteur unité (norme unitaire).\\
+
+L'idée est de généraliser la propriété :
+$$\vec{v}_i^T \vec{v}_k = \begin{cases} 0 \text{ pour $i \neq k$} \\ 1 \text{ pour $i = k$} \end{cases} $$
+
+Un moyen de condenser cette information est de construire une matrice dont les colonnes sont formée d'un ensemble de vecteur $\vec{v}_1,\vec{v}_2,\cdots,\vec{v}_n$ .
+
+$$ \textbf{V} = \begin{bmatrix}
+\vdots & \vdots & \cdots & \vdots \\
+\vec{v}_1 & \vec{v}_2 & \cdots & \vec{v}_n \\
+\vdots & \vdots & \cdots & \vdots \\
+\end{bmatrix}$$
+
+\begin{tabular}{l c r}
+Repère orthonormé & $\Leftrightarrow$ & $\boxed{\textbf{V}^T\textbf{V}= \textbf{I}}$ \\ [6pt]
+Matrice orthogonale & $\Leftrightarrow$ & $\boxed{\textbf{V}^T=\textbf{V}^{-1}}$ \\[12pt]
+\end{tabular}
+
+
+Exemple matrice de rotation : 
+$$\underbrace{\begin{bmatrix}
+\cos \phi & -\sin \phi \\ \sin \phi & \cos \phi
+\end{bmatrix}}_{\textbf{R}^T} \underbrace{\begin{bmatrix}
+\cos \phi & \sin \phi \\ -\sin \phi & \cos \phi
+\end{bmatrix}}_{\textbf{R}} = \underbrace{\begin{bmatrix}
+1 & 0 \\ 0 & 1 \end{bmatrix}}_{\textbf{I}}$$
+
+\figc{1}{194}
+
+\subsection{Factorisation (décomposition) SVD de matrices}
+
+\figc{1}{195}
+
+\subsubsection{Décomposition en valeurs singulières (SVD)}
+
+\textbf{MatLab :} \codeword{[U, S, V] = svd(M);}
+
+$$ \begin{array}{l l}
+\textbf{M} = \textbf{U} \textbf{S} \textbf{V}^T & [\text{U, S, V}]=\text{svd}(\textbf{M}) \\
+m \times n  = (m \times m)(m \times n)(n \times n)
+\end{array} $$
+
+Avec : \textbf{U} et \textbf{V} : matrices orthogonales (unitaires)
+$$ \begin{array}{c c}
+\begin{array}{l}
+\textbf{U}^T \textbf{U} = \textbf{I} \\
+\textbf{V}^T \textbf{V} = \textbf{I} \\
+\; \\
+\text{Valeurs singulières :} \\
+\sigma_1 \geq \sigma_2 \geq \cdots \geq \sigma_n \geq 0
+\end{array} & \textbf{S} = \overbrace{\begin{bmatrix}
+\sigma_1 & 0 & \cdots & 0 \\ 0 & \sigma_2 & \cdots & 0 \\ \cdots & 0 & \cdots & 0 \\ 0 & 0 & \cdots & 0 \\ 0 & 0 & \cdots & \sigma_n \\ 0 & 0 & 0 & 0 \end{bmatrix}}^{n \text{ colonnes}}\Bigg\rbrace m \text{ lignes}
+\end{array} $$
+
+$$
+\begin{array}{r c l}
+\textbf{SVD :} &\textbf{M} = \textbf{U}\textbf{S}\textbf{V}^T \\
+\textbf{V} = \begin{bmatrix} \vec{v}_1 & \vec{v}_2 & \cdots & \vec{v}_n \end{bmatrix} & : &\textbf{V}^T\textbf{V}=\textbf{I} \\[6pt]
+\textbf{U} = \begin{bmatrix} \vec{u}_1 & \vec{u}_2 & \cdots & \vec{u}_n \end{bmatrix} & : & \textbf{U}^T\textbf{U}=\textbf{I}
+\end{array}
+$$
+
+\textbf{Constat : }
+$$
+\begin{array}{l c}
+\textbf{M} \vec{v}_1 = \sigma_1 \vec{u}_1 & \text{: amplification max} \\
+\textbf{M} \vec{v}_2 = \sigma_2 \vec{u}_2 & \\
+\vdots \\
+\textbf{M} \vec{v}_n = \sigma_n \vec{u}_n & \text{: amplification min} \\
+\end{array}
+$$
+
+\subsubsection{Explication « \textit{vecteurs singuliers} »}
+
+\figc{1}{196}
+
+\subsubsection{Amplification directionnelle}
+
+\figc{1}{197}
+
+
+\subsubsection{Interprétation géométrique de la SVD}
+
+\figc{1}{198}
+
+\textbf{Interprétation géométrique de la SVD :}\\
+
+\begin{itemize}
+\item En multipliant par une matrice \textbf{M} de taille $m \times n$, la hypersphère unité dans $\mathbb{R}^n$ est transformée en hyperellipsoïde dans $\mathbb{R}^m$.
+\item La longueur des demi-axes de cet hyperellipsoïde correspondent aux valeurs singulières $\sigma_1 \geq \sigma_2 \geq \sigma_3 \cdots$ 
+\item La direction des demi-axes de l’hyperellipsoïde est donné par le repère orthonormé $\vec{u}_1,$, $\vec{u}_2$, $\vec{u}_3$, $\cdots$ correspondant aux colonnes de \textbf{U}
+\item Le repère \textbf{pré-image} orthonormé est donné par les vecteurs $\vec{v}_1$, $\vec{v}_2$, $\vec{v}_3$, $\cdots$ correspondant aux colonnes de \textbf{V}
+\item L'image de $\vec{v}_1$ correspond à $\textbf{M}\vec{v}_1 = \sigma
+_1 \vec{u}_1$, etc.
+\end{itemize}
+
+\subsubsection{Conclusion}
+
+La \textbf{décomposition en valeurs singulières} (ou \textbf{SVD}, de l'anglais \textit{singular value decomposition}) est un outil important de factorisation des matrices rectangulaires réelles ou complexes.\\
+
+Les valeurs singulières et les vecteurs singulier permet de donner une valeurs quantitative permettent de décrire l'observabilité ou la commandabilité d'un système.\\
+
+Cette outil est particulièrement utile pour la régulation, le traitement de signal, la statistique et l'intelligence artificielle pour la classification.
+
+\subsection{Effet de la transformation M}
+
+\figc{1}{200}
+
+$$\textbf{M}\textcolor{red}{x} = \underbrace{\textbf{U}\overbrace{\textbf{S}\underbrace{\textbf{V}^T}_{\text{Rot}}}^{\text{Etirement}}}_{\text{Rot}}\textcolor{red}{x}$$
+
+La transformation définie par M déforme le \textbf{cercle unitaire} bleu ci-dessus à gauche en une
+\textbf{ellipse} dans le coin supérieur droit de l'image.\\
+La transformation \textbf{M} peut alors être décomposée en une \textbf{rotation} $V^*$ suivie d'une \textbf{compression}
+ou \textbf{étirement} $\sum$ \textbf{le long des axes} de coordonnées suivie en fin d'une nouvelle \textbf{rotation} \textbf{U}.\\
+Les valeurs singulières $\sigma_1$ et $\sigma_2$ correspondent aux longueurs des grand et petit axes de l'ellipse.
+
+\subsection{Différences entre valeurs singulières (\textit{svd}) et valeurs propres (\textit{eig})}
+
+\begin{itemize}
+\item Les valeurs propres n'existent que pour des matrices carrées, alors que les valeurs singulières existent pour des matrices rectangulaires
+\item Les valeurs singulières sont toujours réelles et \textbf{positives}, alors que les valeurs propres peuvent être négatives ou complexes
+\item Pour des matrices carrés symétriques et positives définis, les deux notions "\textbf{valeurs singulières}" et "v\textbf{aleurs propres}" \textbf{coïncident} !
+\item $\text{svd}=\sqrt{\text{eig}(M^T M)}$ $\Longleftrightarrow$ \codeword{svd = sqrt(eig(M'M))}
+\end{itemize}
+
+\subsection{Rang d'une matrice, conditionnement}
+
+\textbf{Rappel : }L'inverse d'une matrice orthogonal est égale à sa transposé !
+
+\begin{itemize}
+\item  Le rang d'une matrice $=$ nombre de valeurs singulières non-nulles.
+\item Si p.ex. la valeur singulière la plus petite $\sigma_{min}$ est \textbf{presque nulle}, l'image de
+la hyper-sphère unité dans l'espace pré-image donne une hyper-ellipse « écrasée », et la matrice est proche d'une \textbf{perte de rang}.
+\item  Le conditionnement d'une matrice est défini par le ratio entre la plus grande et la plus petite valeur singulière.
+$$ \boxed{\text{cond}(M) = \dfrac{\sigma_{\text{max}}(M)}{\sigma_{\text{min}}(M)}} $$
+\item Pour une matrice carré inversible, les valeurs singulières de l'inverse d'une matrice correspondent aux valeurs réciproques des valeurs singulières de la matrice d'origine.
+$$ \boxed{\sigma_{\text{max}(M^{-1})}= \dfrac{1}{\sigma_{\text{min}}(M)}} $$
+\end{itemize}
+
+
+\textbf{Pour savoir si une matrice est inversible, il faut toujours utiliser les valeurs singulières !!! \\ Ne jamais utiliser le determinant !}
+
+\subsection{Autre propriétés importantes de la \textit{SVD}}
+
+lien entre valeurs singulières et valeurs propres :\\
+\begin{itemize}
+\item Valeurs singulières applicable pour n'importe quelle taille de matrice
+\item Valeurs propres que applicable pour des matrices de taille carrée
+\item les valeurs singulières sont des nombres réels positifs $\geq 0$
+\item Les valeurs propres peuvent être réels (pos/nég) ou complexes
+\item  $\boxed{\sigma_k(M)=\sqrt{\lambda_k(M^T M)}}$\\
+ce qui explique que les valeurs singulières sont $\geq 0$
+\item $\boxed{\text{det}(M) = \prod_{k=1 \ldots n}\sigma_k(M)}$ pour une matrice carrée \textbf{M} ce qui explique que le déterminant peut être très loin de zéro alors que
+la matrice n'est presque pas inversible
+\end{itemize}
+
+\subsection{diagramme de Bode multivariable (sigma plot)}
+
+Pour une matrice de transfert $G(j\omega)$ d'un système multivariable (MIMO), les valeurs singulières de $G$ dépendent de la fréquence (resp. pulsation).\\
+
+On les affiche en $\text{dB}$ sur une axe logarithmique en $\text{rad}/s$ ou $\text{Hz}$.\\
+
+Command Matlab : \codeword{sigma(sys)}
+
+
+
+\end{document}
+

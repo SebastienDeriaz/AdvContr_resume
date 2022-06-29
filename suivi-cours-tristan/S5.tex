@@ -1,0 +1,276 @@
+\documentclass[document.tex]{subfiles}
+
+\begin{document}
+
+\section{S5}
+
+\subsection{Contenue}
+
+\figc{1}{100}
+
+\subsection{Rappel}
+
+\subsubsection{LQR (Linear Quadratic Regulator)}
+
+\figc{1}{101}
+
+\begin{tabular}{l c l}
+$Q \geq 0$ & : & Semi-défini positif \\
+$R > 0$ & : & défini positif
+\end{tabular}
+
+\subsubsection{Solution LQR analogique / équation de Riccati}
+
+\figc{1}{102}
+\subsubsection{Cheap control / Expensive control}
+
+On souhaite régler un système avec une minimum d'énergie.\\
+
+\textbf{Il y a deux cas de figure : }
+\begin{enumerate}
+\item Le cas extrême $R = 0$ est appelé \textit{« \underline{cheap control} »}
+Le gain du retour d'état va tendre vers \textbf{infini} !
+\item L'autre c\textit{as extrême $Q = 0$ est appelé }« underline{expensive control} »
+Les pôles déjà stables en boucle ouverte restent inchangés en b.f.
+Un pôle instable en b.o. miroite autour de l'axe imaginaire. \\
+\end{enumerate}
+
+\subsubsection{DLQR (Discrete Linear Quadratic Regulator)}
+
+\figc{1}{103}
+
+\subsubsection{Solution LQR discret / Équation de Riccati}
+
+\figc{1}{104}
+
+\subsection{Nomenclature anglo-saxonne}
+
+\figc{1}{105}
+
+\begin{tabular}{l c c c l}
+
+$P(s)$ : \textit{plant} & $=$ & système à régler & $=$ & $G_a(s)$ \\
+
+$C(s)$ : \textit{controller} & $=$ & s régulateur & $=$ & $G_c(s)$ \\
+
+$L(s)$ : \textit{open loop} & $=$ & boucle ouverte & $=$ & $G_o(s)$ \\
+
+$r(t)$ : \textit{reference signal} & $=$ & consigne & $=$ & $w(t)$ \\
+
+$T(s)$ : \textit{closed loop} & $=$ & boucle fermée & $=$ & $G_{yw}(s)$ \\
+
+\end{tabular}
+
+\subsection{Rappel : boucle ouverte et boucle fermée}
+
+\figc{1}{106}
+
+\subsubsection{Boucle ouverte pour le retour d'état}
+
+\figc{1}{107}
+
+$$\boxed{L(s)=K(sI-A)^{-1}B}$$
+
+\subsection{Critère de Nyquist simplifié}
+
+\figc{1}{108}
+
+\subsubsection{Réflexions intuitives pour motiver le critère de Nyquist}
+
+\figc{1}{109}
+
+\subsubsection{Effet Larsen : feedback acoustique provoquant un sifflement}
+
+\figc{1}{110}
+
+\subsubsection{Réflexions intuitives}
+
+\figc{1}{111}
+
+\subsubsection{Explication mathématique}
+
+\begin{equation}
+\begin{array}{c}
+boxed{G_{yw}(s)=\frac{G_o(s)}{1+G_o(s)}} \\
+boxed{G_o{s}=-1 \; \Rightarrow \; G_{yw}(s) = \frac{-1}{1-1} = \frac{-1}{0} \rightarrow \infty}
+\end{array}
+\end{equation}
+
+
+\subsubsection{Boucle fermée marginalement stable $\rightarrow$ un sinus peut persister dans la boucle !}
+
+\figc{0.8}{112}
+
+\subsubsection{Boucle fermée marginalement stable}
+
+\figc{0.8}{113}
+
+\subsubsection{Réflexions intuitives}
+Pour avoir un amortissement en boucle fermée (stabilité), il faut que le signal contre-réactionné y soit \textbf{plus petit} que le signal e injecté dans la boucle.
+
+\subsubsection{Définition : marge de gain et de phase}
+
+\figc{1}{114}
+
+\subsubsection{Critère de Nyquist simplifié}
+ $\phi_m$ doit être positive en dB et $A_m$ doit être positif en dB.\\
+
+\subsubsection{Lieu de Nyquist - Alternative au diagramme de Bode}
+
+Au lieu des 2 plots séparés du diagramme de Bode (amplitude et phase), ayant comme abscisse la pulsation, le \textbf{lieu de Nyquist} est \textbf{un seul} plot.\\
+
+Le lieu de Nyquist est la courbe paramétrique de $G_o(j\omega)$ dans le plan complexe.\\
+
+Pour chaque valeur de la pulsation $\omega$ cela donne un point $G_o(j\omega)$ dans le plan complexe.\\
+
+En parcourant $\omega$ de zéro à $\infty$ la valeur de $G_o(j\omega)$ varie, et cela donne une courbe paramétrique orientée, appelée de le "lieu de Nyquist".
+
+\subsubsection{Critère de Nyquist simplifié}
+
+\figc{1}{115}
+
+La boucle fermée est stable si \textbf{le lieu de Nyquist \underline{n'encercle pas} le point critique}. Donc si \textbf{le point critique est à \underline{gauche} du lieu de Nyquist}. Que valable si la boucle ouverte est stable !
+
+\subsubsection{Motivation pour le critère de Nyquist généralisé}
+
+\figc{1}{116}
+
+\textbf{Calculons le pôle en boucle fermée pour déterminer la stabilité en b.f : }
+
+\figc{1}{117}
+
+Dans cette exemple $s$ : est le pôle en boucle fermé du système.
+
+\subsubsection{Lieu de Nyquist complet de $\frac{k}{s-1}$}
+
+\figc{1}{118}
+
+\textbf{On cherche à trouver la valeur de $K$ qui permet que le lieu de Nyquist encercle le point critique : }
+\figc{1}{119}
+
+\figc{1}{120}
+
+\textbf{\underline{Attention} : Cette conclusion n'est valable que pour cette exemple particulier.}
+
+\subsection{Critère de Nyquist}
+
+\subsubsection{Critère de Nyquist simplifié (critère du revers) :}
+$\rightarrow$ \; Valable stables ou instables en b.o.\\ 
+Critère basé sur le nombre d'encerclements de $G_o(j \omega)$ autour du point critique $-1$ pour les systèmes stables ou instables en b.o.\\ 
+Critère basé sur le nombre d'encerclements de $G_o(j \omega)$ autour du point critique $-1$
+
+\subsubsection{Critère de Nyquist généralisé :}
+
+$\rightarrow$ \; valable pour tous les systèmes \textbf{stables ou instables en b.o.\\ 
+Critère basé sur le nombre d'encerclements de $G_o(j \omega)$ autour du point critique $-1$}.\\
+
+\textbf{La \underline{boucle fermée} est stable si et seulement si le \underline{nombre d'encerclements du point critique -1} dans le sens trigonométrique correspond au \underline{nombre de pôles instables} en \underline{boucle ouverte}.}
+
+\subsection{critère de Nyquist généralisé}
+
+La boucle \textbf{fermée} est stable, si et seulement si le nombre \textbf{d'encerclements} du lieu de Nyquist complet de la \textbf{boucle ouverte} $L(j\omega)$, $-\infty < \omega < \infty $ autour du point critique $s=−1$ correspond \textbf{exactement} aux nombre de pôles \textbf{instables} $N_p$ en boucle ouverte. Les encerclements sont comptés dans le sens trigonométrique.
+
+\figc{1}{121}
+
+\subsubsection{Vérification des pôles en boucle fermée}
+
+\figc{1}{122}
+
+\subsubsection{Rappel cours AAV}
+\figc{1}{123}
+
+\figc{1}{124}
+
+\subsection{Régulateur LQR}
+
+\subsubsection{Robustesse du régulateur LQR (retour d'état)}
+
+\textbf{\underline{Inégalité de Kalman}} : $\mid 1+L(j \omega) \mid \geq 1$ pour chaque pulsation $\omega \; \Leftrightarrow$ distance entre le lieu de Nyquist $L(j \omega)$ et le point critique $\mid 1+L(j \omega) \mid \geq 1$ $\Leftrightarrow$ marge de phase $\phi_m \geq 60\degres$ et marge de gain $0.5\leq Am < \infty$.\\
+
+\figc{0.8}{125}
+
+\subsubsection{Régulation en correspondance LQR avec action intégrale}
+
+\figc{1}{132}
+
+\begin{enumerate}
+\item Faire d'abord la synthèse LQR de $K_2$ (vecteur ligne), puis après celle de $K_1$ (scalaire).\\
+La boucle extérieure devrait être plus lente que la boucle intérieure.\\
+\textbf{\underline{Inconvénient :}} la synthèse de $K_1$ peut compromettre la synthèse LQR de $K_2$
+\item \textbf{\underline{Mieux}} : Faire une seule synthèse simultanée pour $K_1$ et $K_2$ !\\
+\textbf{\underline{Idée principale :}} l'action intégrale rajoute une variable d'état, ce qui agrandit la taille de $A$ et de $B$
+\end{enumerate}
+
+\begin{center}
+$2=y-r$ \textbf{Attention au \underline{signe} !}
+\end{center}
+
+Sa dérivée temporelle donne :
+
+$$\dot{e}=\dot{y}-\overbrace{\dot{r}^0}=\dot{y=C\dot{x}}$$
+
+Définir deux variables intermédiaires, $z$ et $w$ , comme :
+$$ z=\dot{x} \text{ et } w = \dot{u}$$
+
+un nouveau système en résulte :
+$$ \overbrace{\begin{bmatrix} \dot{e} \\ \dot{z} \end{bmatrix}}^{\dot{\hat{x}}} = \overbrace{\begin{bmatrix} 0 & C \\ 0 & A \end{bmatrix}}^{\dot{\hat{A}}} \overbrace{\begin{bmatrix} e \\ z \end{bmatrix}}^{\hat{x}} + \overbrace{\begin{bmatrix} 0 \\ B \end{bmatrix}}^{\hat{B}} \overbrace{w}^{\hat{u}}$$
+
+\figc{1}{134}
+
+\subsection{Observateur}
+
+\subsubsection{Motivation observateur}
+\figc{1}{135}
+\figc{1}{136}
+
+\subsubsection{Observateur pour monitorer des signaux difficilement mesurables}
+\figc{1}{137}
+
+\subsubsection{Idée naïve : observateur "trivial"}
+\figc{1}{138}
+
+\subsubsection{Dynamique de l'erreur de l'observateur trivial}
+\figc{1}{139}
+
+\begin{itemize}
+\item La dynamique de l'erreur est indépendante du signal de commande u(t).
+\item $x_e(t)=e^{At}x_{e,0}$ : sous quelle condition l'observateur trivial converge ?
+\item Converge que si le processus est stable, i.e. si toutes les valeurs propres ont une partie réelle négative
+\end{itemize}
+
+\subsubsection{Points faibles de l'observateur trivial}
+\figc{1}{140}
+
+\subsubsection{Structure de l'observateur complet}
+\figc{1}{141}
+
+
+\subsubsection{Dynamique de l'erreur de l'observateur complet}
+\figc{1}{142}
+\figc{1}{143}
+
+
+
+
+
+
+
+
+
+
+
+
+\subsubsection{Rappel cours AAV - Design d'un régulateur robuste par loopshaping manuel}
+
+\figc{1}{126}
+\figc{1}{127}
+\figc{1}{128}
+\figc{1}{129}
+\figc{1}{131}
+
+
+
+
+
+\end{document}
+

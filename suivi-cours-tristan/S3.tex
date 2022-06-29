@@ -1,0 +1,178 @@
+\documentclass[document.tex]{subfiles}
+
+\begin{document}
+
+\section{S3}
+
+\subsection{Contenue}
+
+\begin{enumerate}
+\item Rappel cours 2, exercices série 2
+\item Modèle échantillonné : application de la matrice de transition
+\item Retour d’état par placement de pôles
+\item Commandabilité
+\item Forme commandable  (tf $\Rightarrow$ ss)
+\end{enumerate}
+
+\subsection{Rappels cours 2}
+\begin{itemize}
+\item Valeurs propres, vecteurs propres de la matrice système A
+\item Diagonalisation de la matrice A
+\item Forme modale
+\item Solution générale de la trajectoire x[k], temps discret
+\item Solution générale de la trajectoire x(t), temps continu
+\item Matrice de transition, exponentielle matricielle
+\end{itemize}
+
+
+\subsubsection{Solution générale de la trajectoire x(t) temps continu }
+
+\figc{1}{50}
+
+L'exponentiel matricielle $e^{A t}$ est appelée « matrice de transition » Matlab : expm(A*t)
+
+\subsection{Définition de l'exponentiel matricielle : Taylor}
+
+\figc{0.5}{51}
+
+Les puissances $(A t)^2$, $(A t)^3$, etc sont à calculer selon \textbf{les règles de multiplication matricielle, pas élément par élément !}
+
+\subsection{Exponentielle matricielle : unification}
+
+\figc{0.9}{52}
+
+\subsection{Modèle échantillonné du système à régler}
+
+\figc{0.9}{53}
+
+Trouver $H(z)$ à partir de $G_a(s)$ :trouver la représentation dans l'espace d'état de $H$ à partir de celle de $G_a$.
+
+\subsection{Calcul de H(z) basé sur la réponse impulsionnelle}
+
+\figc{0.9}{54}
+
+\subsection{Calcul du modèle échantillonné dans l'espace d'état}
+
+Si l'on souhaite utiliser l'espace d'état dans le domaine numérique (modèle échantillonné) les matrices A et B doivent être adaptées à l'aide des relations :
+
+\figc{0.9}{55}
+
+\subsection{Calcul par Matlab}
+
+\figc{0.8}{56}
+
+\subsection{Retour d'état  « state feedback »}
+
+\textbf{les \textbf{trois objectifs} de la régulation :}
+\begin{enumerate}
+\item Rendre \textbf{la boucle fermée stable} avec une « dynamique » appropriée
+\item Bonne régulation de \textbf{correspondance}, le signal à régler devrait au mieux suivre la consigne
+\item Bonne régulation de \textbf{maintien}; maintenir le signal à régler proche de la consigne
+\end{enumerate}
+
+Hypothèse : une mesure complète du vecteur d'état est disponible.\\
+Idée : reboucler l'état x(t) sur l'entrée u(t) avec un gain K.\\
+
+\textbf{Aussi dit : "\textit{Full Information}"}
+\figc{1}{72}
+
+\subsection{Stabilité en B.F. - Méthode de synthèse du retour d'état par placement de pôles}
+
+\figc{0.8}{57}
+
+\subsubsection{Méthode}
+\begin{enumerate}
+	\item On s'intéresse uniquement au système à régler : $\boxed{\dot{x}= x + Bu}$
+	\item On cherche un régulateur proportionnel dont le gain $K$ rend le système stable : $\boxed{u=-Kx}$
+	\item On pose la relation en boucle fermée B.F. : $\boxed{\dot{x}=\underbrace{A-BK}x_{Abf}}$
+	\item On trouve le polynôme caractéristique : $\boxed{\text{det}(SI-A) = 0}$
+	\item On fixe des pôles pour le système régulé
+	\item On trouve les valeurs de $K$ à l'aide des pôles placé précédemment
+\end{enumerate}
+
+\subsubsection{Exemple}
+
+\figc{0.8}{58}
+
+\figc{0.8}{59}
+
+\figc{0.8}{60}
+
+\subsection{Commandabilité}
+
+\figc{0.8}{61}
+
+\subsection{Critère algébrique pour la commandabilité}
+
+\figc{0.8}{62}
+
+\figc{0.8}{63}
+
+\figc{0.8}{64}
+
+\subsection{Exemples intuitifs}
+
+\figc{0.8}{65}
+
+Dessiner le schéma bloc associé : on voit tout de suite qu'il y a un sous-système qui est dans l'air !
+
+\figc{0.8}{73}
+
+\subsubsection{Autre exemple :}
+
+\figc{0.8}{66}
+
+\subsection{Exemple moins trivial}
+
+\figc{0.8}{67}
+
+\textbf{Exemple de calcul de la matrice de commandabilité : }\\
+\begin{equation}
+\begin{array}{c c}
+A = \begin{bmatrix} -1 & 0 \\ 1 & -2 \end{bmatrix} & B = \begin{bmatrix} 1 \\ 1 \end{bmatrix} \\[12pt]
+AB = \begin{bmatrix} -1 \cdot 1+0 \cdot 1 \\ 1 \cdot 1 - 2 \cdot 1 \end{bmatrix} = \begin{bmatrix} -1 \\ -1 \end{bmatrix} & \boxed{n=2} \\[12pt]
+P_c = \big[ B \; \vline \;  AB \big] = \begin{bmatrix} 1 & -1 \\ 1 & -1 \end{bmatrix}
+\end{array}
+\end{equation}
+
+\subsection{La forme commandable (tf $\Rightarrow$ ss)}
+
+\begin{center}
+\begin{tabular}{c c c}
+\textbf{Temporel} & & \textbf{Fréquentiel} \\[12pt]
+\codeword{ss} & $\Rightarrow$ & \codeword{tf} \\[12pt]
+$A,B,C,D$ & $\Leftarrow $& $G(s)=C(SI - A)^{-1}B + D$ \\[12pt]
+\centered{$\bullet$ \textcolor{red}{Forme modale} $\text{diag}(A)$\\
+		  $\bullet$ \textcolor{red}{Forme commandable}}
+\end{tabular}
+\end{center}
+
+\figc{0.8}{68}
+
+\figc{0.8}{69}
+
+\subsubsection{Schéma bloc de la forme commandable}
+
+\figc{0.8}{70}
+
+\figc{0.8}{71}
+
+\begin{center}
+\textbf{\underline{FORME COMMANDABLE}}
+\end{center}
+
+
+\begin{equation}
+\boxed{
+\begin{array}{c c}
+A = \begin{bmatrix} 0 & \textcolor{mygreen}{1} & 0 \\ 0 & 0 & \textcolor{mygreen}{1} \\
+	\textcolor{mygreen}{-a_0} & \textcolor{mygreen}{-a_1}  & \textcolor{mygreen}{-a_2} \end{bmatrix} &
+	B = \begin{bmatrix} 0 \\ 0 \\ \textcolor{mygreen}{1}	\end{bmatrix} \\[24pt]
+	C = \begin{bmatrix} \textcolor{mygreen}{b_0} & \textcolor{mygreen}{b_1}  & \textcolor{mygreen}{b_2} 	\end{bmatrix} & D = 0 \\[12pt]
+	\Downarrow \\
+	\boxed{G(s) = \frac{b_2 s^2 + b_1 s + b_0}{s^3 + a_2 s^3 + a_1 s + a_0}} & \boxed{\centered{\text{Degré relatif : } \\ d = n-m = 3-2 = 1 = B}}
+\end{array}}
+\end{equation}
+
+
+\end{document}

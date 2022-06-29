@@ -1,0 +1,229 @@
+\documentclass[document.tex]{subfiles}
+
+\begin{document}
+
+\newpage
+\section{S11}
+
+\subsection{Contenue}
+\begin{enumerate}
+\item Rappel cours 10, exercices série 10
+\item Identification fréquentielle
+\item Régulation robuste
+\end{enumerate}
+
+\subsection{Rappel}
+\figc{1}{233}
+
+\subsubsection{Les quatre étapes de l'identification}
+\figc{1}{234}
+\figc{1}{235}
+
+Il faut impérativement diviser les mesures dans deux groupes séparées :\\
+
+\begin{enumerate}
+\item Mesures utilisées pour l'estimation
+\item Mesures utilisées pour la validation
+\end{enumerate}
+
+
+\subsection{Least squares (LS) : un problème d'optimisation bien maîtrisé}
+\figc{1}{236}
+
+
+
+\subsubsection{Interprétation géométrique : moindres carrés}
+
+Paramètres à identifier regroupés dans un vecteur inconnu :\\
+\textbf{Paramètres inconnus :} $\vec{\Theta}= \begin{bmatrix} \Theta_1 \\ \vdots \\ \Theta_n \end{bmatrix} $\\
+
+Mesures donnent lieu à une matrice rectangulaire $\Phi$ ayant plus de lignes que de colonnes, et un vecteur y.\\
+
+Système linéaire \textbf{surdéterminé}; on essaie de minimiser le résidu $\Phi \Theta - y$ dans le sens des moindres carrés.
+
+$$
+\boxed{\underset{\Theta}{\min} \parallel \Phi \Theta - y \parallel_2}
+$$
+
+
+Solution : le vecteur résidu est perpendiculaire à l'hyperplan engendré
+par les colonnes de la matrice $\Phi$.
+
+\figc{1}{238}
+
+
+\textbf{Vecteur résidu :} $\vec{\varepsilon}$\\
+
+$$
+\begin{array}{l l}
+\vec{\varepsilon} \perp \vec{\Phi}_1 & \vec{\Phi}_1 \text{: 1\er colonne de }\Phi  \\
+\vec{\varepsilon} \perp \vec{\Phi}_2 & \vec{\Phi}_e \text{: 2\eme colonne de }\Phi 
+\end{array}
+$$
+
+$$
+\begin{array}{c}
+\vec{\Phi}_1^T \cdot \vec{\varepsilon} = 0 \\
+\vec{\Phi}_2^T \cdot \vec{\varepsilon} = 0 \\
+\vdots
+\end{array}
+$$
+
+$$
+\boxed {\Phi^T \cdot \vec{\varepsilon} = \vec{0}}
+$$
+
+\subsubsection{Solution moindres carrés (least squares)}
+
+\figc{0.4}{239}
+\figc{1}{240}
+
+\subsection{Identification dans le domaine fréquentiel}
+
+\textbf{Mesure du diagramme de Bode :}\\
+\begin{enumerate}
+\item Appliquer fréquence par fréquence, attendre le régime harmonique établi, mesurer le ratio des amplitudes et le déphasage. \\
+$\Longrightarrow$ Prend beaucoup de temps pour peu de points fréquentiels
+\item Appliquer un signal d'excitation "riche" en fréquences, p.ex. \textbf{SBPA} (suite binaire pseudo-aléatoire), appliquer une \textbf{FFT} sur le signal d'entrée et de sortie, puis diviser.
+\item Appliquer un balayage fréquentiel "\textit{sine sweep}"
+\end{enumerate}
+
+\subsubsection{Mesure du diagramme de Bode par balayage}
+
+\figc{1}{241}
+\figc{1}{242}
+
+\subsubsection{Rappel : régime harmonique numérique}
+\figc{1}{243}
+
+\subsubsection{Identification fréquentielle}
+
+On dispose de mesures de la fonction de transfert numérique à certaines 
+pulsations, donc on connaît les nombres complexes $$ G_k = G(e^{j \omega_k h}) $$\\
+
+On propose une fonction rationnelle pour  $G(z)$, avec des coefficients inconnus
+au numérateur et au dénominateur.\\
+
+On peut facilement formuler un problème aux moindres carrés pour déterminer
+les paramètres inconnus.\\
+
+\textit{Voir : Exercice 11.3}
+
+
+\subsubsection{Exemple exercice 11.3}
+
+$$
+G(z) = \dfrac{K}{z(z+a)}=\dfrac{y(z)}{U(z)}
+$$
+
+\textbf{Paramètres inconnus :} $\vec{\Theta}= \begin{bmatrix} \Theta_1 \\ \vdots \\ \Theta_n \end{bmatrix} $\\
+
+$$
+\begin{cases} 3\Theta_1 + 5\Theta_2 = 1 \\ \Theta_1 + 7\Theta_2 = 3 \end{cases} \rightarrow \text{Nb. éq.} = n
+$$
+
+$$
+\begin{array}{l l l}
+\Phi = \begin{bmatrix} 3 & 5 \\ 1 & 7 \end{bmatrix} \quad y = \begin{bmatrix} 1 \\ 3 \end{bmatrix} & \begin{cases} \Phi\vec{\Theta} = \vec{y} \\ \Theta = \Phi^{-1} y \end{cases} & \Phi \vec{\Theta} - \vec{y} = \underbrace{\vec{0}}_{\text{résidue}}
+\end{array}
+$$
+
+$$
+\underset{\Theta}{\min} \parallel \underbrace{\Phi \vec{\Theta}-\vec{y}}_{\vec{r}} \parallel_2 \quad \vec{r} = \Phi \vec{\Theta}-\vec{y}=\begin{bmatrix}
+r_1 \\ r_2 \\ \vdots \\ r_n
+\end{bmatrix} \quad \parallel\vec{r}\parallel_2= \sqrt{\vec{r_1^2 + r_2^2 + \ldots r_n^2}}
+$$
+
+$ \Theta_{\text{opt}} $ ? :\\
+
+\begin{tabular}{l l l}
+$\Phi$ : $n \times p$ & $\Phi^T$ : $p \times n$ & $\Phi^T \Phi$ : $p \times p$ (carrée)
+\end{tabular}
+
+$\\Theta = \begin{bmatrix} K \\ a \end{bmatrix}$ :\\
+
+$$  
+\begin{array}{c}
+	u[k]\underset{\text{connu}}{\longrightarrow}\boxed{G(z)}\underset{\text{mesure bruitée}}{\longrightarrow y[k]} \\[12pt]
+	u[k] = \{1,1,1,\ldots\} \\[6pt]
+	z^2 y(z) + z a y(z) = K U(z) \quad \vert z^{-2} \\[6pt]
+	y(z) + a z^{-1}y(z) = K z^{-2}U(Z) \vert \mathcal{Z}^{-1}\\[6pt]
+	\downarrow \\[6pt]
+	\boxed{y[k]+ a y[k-1]=Ku[k-2]}
+\end{array}
+$$
+
+\subsubsection{Minimisation de l'erreur absolue - problème}
+
+\figc{1}{244}
+
+\subsection{Régulateur robuste}
+
+\subsubsection{tentative de définition "régulation robuste"}
+
+\textbf{Ensemble d'outils permettant d'effectuer :}\\
+
+\begin{enumerate}
+\item L'\textbf{analyse} des propriétés d'une boucle fermée avec un système à régler comprenant des \textbf{incertitudes}.
+\item la \textbf{synthèse} d'un régulateur \textbf{fixe} (non adaptatif) pour une \textbf{famille} de systèmes à régler avec des \textbf{incertitudes} (paramétriques et non-paramétriques) telle qu'un certain niveau de performance en boucle fermée soit \textbf{préservé} pour toute la famille des systèmes à régler.
+\end{enumerate}
+
+\subsubsection{Rappel : Nombre d'encerclements nécessaires pour la stabilité en boucle fermée}
+
+\textbf{Critère de Nyquist généralisé : }\\
+
+$\Rightarrow$ valable pour tous les systèmes stables ou instables en b.o.\\
+La \textbf{boucle fermée} est \textbf{stable} si et seulement si le \textbf{nombre
+d'encerclements du point critique} $-1$ dans le sens trigonométrique correspond au \textbf{nombre de pôles instables en boucle ouverte}.
+
+\figc{1}{245}
+
+\subsubsection{Définition de la distance critique}
+
+\figc{1}{246}
+
+\subsubsection{Marges de stabilité}
+
+Une \textbf{distance critique} confortable (p.ex $d_{\text{crit}} > 0.5$) implique des 
+bonnes marges de gain et de phase.
+
+$$
+\boxed{ A_m > \dfrac{1}{1-d{\text{crit}}}} \quad \quad \quad \boxed{\phi_m > 2 \arcsin\bigg( \dfrac{d_{\text{crit}}}{2} \bigg)}
+$$
+
+\textbf{Attention : Le contraire n'est pas vrai !}\\
+
+\figc{0.5}{247}
+
+\subsubsection{Rappel normes : à quoi ça sert}
+\figc{1}{248}
+
+\subsubsection{Normes pour matrices}
+\figc{1}{249}
+
+\subsubsection{Vecteurs - Matrices - Signaux - Systèmes LTI}
+\figc{1}{250}
+
+\subsubsection{Norme $H_2$ , lien temporel/fréquentiel : thrm. de Parseval}
+\figc{1}{251}
+
+L'énergie d'un signal dans le domaine temporelle est égale à l'énergie dans le domaine fréquentiel, soit plus précisément :
+
+\begin{center}
+\textit{La norme $H_2$ de $G(s)$ correspond à la norme $L_2$ de sa réponse impulsionnelle $g(t) =$ énergie de la réponse impulsionnelle}
+\end{center}
+
+\subsubsection{norme $H_\infty$ = norme induite $L_2$ : \textit{worst case}}
+\figc{1}{252}
+
+
+
+
+
+
+
+
+
+
+\end{document}
+

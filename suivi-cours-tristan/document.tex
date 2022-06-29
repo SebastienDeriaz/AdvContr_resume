@@ -1,0 +1,274 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% HEIG-VD
+%%
+%% Modèle Latex pour laboratoire
+%% 
+%% Fichiers à changer : 
+%%            - constantes.tex
+%%            - Tous les fichiers du corps du rapport 
+%%
+%% Auteur : TTR
+%% Date   : 24.03.2020
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Paramétrage du papier utilisé
+\documentclass[a4paper,12pt,oneside]{article}
+
+% Ne pas toucher, nécessaire à la mise en forme
+\usepackage[utf8x]{inputenc} 
+\usepackage[T1]{fontenc} 		% Nouvelle norme pour codage des caractères
+\usepackage{lmodern} 			% Nouvelle forme de la fonte ComputerModern
+\usepackage[french]{babel} 		% Règles typographiques françaises, césures
+\usepackage{gensymb}  			% Afficher le ° $^{\circ}$
+\usepackage{graphicx} 			% Insertion images
+\usepackage{epstopdf} 			% Convertir les images eps vers pdf
+\epstopdfsetup{outdir=./Images/converted_to_pdf/} % Dossier de sortie des images converties
+\pagenumbering{arabic}
+\usepackage[top=3cm, bottom=3cm, left=3cm, right=3cm, showframe=false]{geometry}
+\usepackage{amsmath}
+\usepackage{mathrsfs}
+\usepackage{color}
+\usepackage{lscape}
+\usepackage{tocloft}
+\usepackage{float}
+\usepackage{textcomp}
+\usepackage{markdown}
+\usepackage{tabto}
+\usepackage{makecell}
+\usepackage{pdfpages}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{siunitx}
+
+\usepackage{subfiles}
+
+\usepackage{rotating}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usepackage{arydshln}
+
+% Enumerate style
+\renewcommand{\labelenumii}{\arabic{enumi}.\arabic{enumii}}
+\renewcommand{\labelenumiii}{\arabic{enumi}.\arabic{enumii}.\arabic{enumiii}}
+\renewcommand{\labelenumiv}{\arabic{enumi}.\arabic{enumii}.\arabic{enumiii}.\arabic{enumiv}}
+
+\NewDocumentCommand{\codeword}{v}{\textcolor{blue}{#1}}
+
+% Comment
+%\usepackage{lipsum}                     % Dummytext
+%\usepackage{xargs}                      % Use more than one optional parameter in a new commands
+%\usepackage[pdftex,dvipsnames]{xcolor}  % Coloured text etc.
+% 
+%\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+%\newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+%\newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
+%\newcommandx{\info}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
+%\newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
+%\newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+
+
+
+% Code in one line
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{xparse}
+% Bash listing style
+
+\lstset{literate=
+  {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+  {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+  {à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+  {À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+  {ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+  {Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+  {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+  {Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+  {Ã}{{\~A}}1 {ã}{{\~a}}1 {Õ}{{\~O}}1 {õ}{{\~o}}1
+  {œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+  {ű}{{\H{u}}}1 {Ű}{{\H{U}}}1 {ő}{{\H{o}}}1 {Ő}{{\H{O}}}1
+  {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+  {€}{{\euro}}1 {£}{{\pounds}}1 {«}{{\guillemotleft}}1
+  {»}{{\guillemotright}}1 {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1
+}
+
+\lstdefinestyle{C}{
+	backgroundcolor=\color{white},   		% choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+	basicstyle=\footnotesize\ttfamily,  	% the size of the fonts that arexy used for the code
+	belowcaptionskip=1\baselineskip,
+	breakatwhitespace=false,         		% sets if automatic breaks should only happen at whitespace
+	breaklines=true,                 		% sets automatic line breaking
+	captionpos=b,                    		% sets the caption-position to bottom
+	commentstyle=\color{green!40!black},,   % comment style
+	deletekeywords={...},            		% if you want to delete keywords from the given language
+	escapeinside={\%*}{*)},          		% if you want to add LaTeX within your code
+	extendedchars=true,              		% lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+	firstnumber=1,                			% start line enumeration with line 1000
+	frame=leftline,	                   
+	identifierstyle=\color{blue!50!black},
+	keepspaces=true,                 		% keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+	keywordstyle=\bfseries\color{violet},   % keyword style
+	language=C,                 			% the language of the code
+	morekeywords={*,...},            		% if you want to add more keywords to the set
+	numbers=left,                    		% where to put the line-numbers; possible values are (none, left, right)
+	numbersep=10pt,                   		% how far the line-numbers are from the code
+	numberstyle=\tiny\color{gray}, 			% the style that is used for the line-numbers
+	rulecolor=\color{black},         		% if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+	showspaces=false,                		% show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+	showstringspaces=false,          		% underline spaces within strings only
+	showtabs=false,                  		% show tabs within strings adding particular underscores
+	stepnumber=1,                    		% the step between two line-numbers. If it's 1, each line will be numbered
+	stringstyle=\color{orange},
+	tabsize=2,	                   			% sets default tabsize to 2 spaces
+	title=\lstname,
+	xleftmargin=1.5cm,
+}
+
+\definecolor{mygreen}{rgb}{0.1,0.4,0.1}
+\lstdefinestyle{console}{
+	basicstyle=\footnotesize\ttfamily\color{black},
+	commentstyle=\color{mygreen},
+	keywordstyle=\color{blue},
+    numberstyle=\tiny\color{gray},
+    stringstyle=\color{codepurple},
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    language=bash
+}
+
+\newcommand{\eme}{\ieme{ }}
+\newcommand{\er}{\ier{ }}
+\newcommand{\ere}{\iere{ }}
+
+\usepackage{float,graphicx}
+
+\newcommand{\figc}[2]{%
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=#1\textwidth]{Include/Figure/#2.png}
+  \end{figure}}
+  
+
+\newcommand{\figl}[4]{
+\begin{table}[H]
+\begin{tabularx}{\textwidth}{l X}
+    \centered{\includegraphics[width=#1cm]{Include/Figure/#2.png}} & \begin{tabular}{#3} #4 \end{tabular}
+\end{tabularx}
+\end{table}}
+
+\newcommand{\figr}[4]{
+\begin{table}[H]
+\begin{tabularx}{\textwidth}{X r}
+	\begin{tabular}{#3} #4 \end{tabular} & \centered{\includegraphics[width=#1cm]{Include/Figure/#2.png}}
+\end{tabularx}
+\end{table}}
+
+\newcommand{\centered}[1]{\begin{tabular}{l} #1 \end{tabular}}
+
+\newcommand{\tbox}[1]{
+\begin{tabular}{|c|}
+\hline #1 \\[4pt]\hline
+\end{tabular}}
+
+\usepackage{float,graphicx}
+  
+  \newcommand{\tikzmark}[2]{
+    \tikz[overlay,remember picture,baseline] 
+    \node[anchor=base] (#1) {$#2$};
+}
+
+%TO DO
+\newcommand{\todo}[1]{\begin{center}
+\colorbox{orange!50}{\Large #1}
+\end{center}}
+
+\newenvironment{rcases}
+  {\left.\begin{aligned}}
+  {\end{aligned}\right\rbrace}
+
+\newenvironment{conditions}
+  {\par\vspace{\abovedisplayskip}\noindent\begin{tabular}{>{$}l<{$} @{${}={}$} l}}
+  {\end{tabular}\par\vspace{\belowdisplayskip}}
+  
+
+%\lstset{language=Bash,keywordstyle={\bfseries \color{black}}}
+%\NewDocumentCommand{\codeword}{v}{\texttt{\colorbox{lightgray}{\textcolor{black}{#1}}}}
+
+\newcommand{\listequationsname}{\Large{Liste des équations}}
+\newlistof{myequations}{equ}{\listequationsname}
+\newcommand{\myequations}[1]{%
+\addcontentsline{equ}{myequations}{\protect\numberline{\theequation}#1}\par}
+
+% fichier avec les constantes (à adapter pour les étudiants)
+\input{1_Constantes}
+
+% Entête et pieds de page (A ADAPTER)
+\pagestyle{empty}
+\usepackage{fancyhdr}
+\setlength{\headheight}{25pt}
+\pagestyle{fancy}
+
+% Entête :
+\fancypagestyle{plain}{}
+\renewcommand\headrulewidth{1pt}
+\fancyhead[L]{\includegraphics[height=22pt]{Include/Figure/logo/HES-SO_logo_Pantone.pdf}}
+\fancyhead[R]{\today \\ \cours}
+\fancyhead[C]{\nameLabo \\ \titre}
+% Pied de page
+\fancyfoot{} % clear all footer fields
+\renewcommand{\footrulewidth}{1pt}
+\fancyfoot[R]{Page \thepage} 
+\fancyfoot[L]{HES-SO | \nomAuteur }
+
+\newcommand{\specialcell}[2][l]{%
+  \begin{tabular}[#1]{@{}l@{}}#2\end{tabular}}
+
+% Début du corps du rapport 
+\begin{document}	
+
+	% première page
+	\input{0_Premiere_page}
+	% enlève le numéro sur la première page
+	\thispagestyle{empty}
+	\setcounter{page}{1}
+	\newpage
+	\tableofcontents
+%	\newpage
+%	\subfile{2_Introduction}
+	\newpage
+	\subfile{S1}
+	\newpage
+	\subfile{S2.tex}
+	\newpage
+	\subfile{S3.tex}
+	\newpage
+	\subfile{S4.tex}
+	\newpage
+	\subfile{S5.tex}
+	\newpage
+	\subfile{S6.tex}
+	\newpage
+ 	\subfile{S7.tex}
+	\newpage
+	\subfile{S8.tex}
+	\newpage
+	\subfile{S9.tex}
+	\newpage
+	\subfile{S10.tex}
+	\newpage
+	\subfile{S11.tex}
+	\newpage
+	\subfile{S12.tex}
+%Fin du document
+\end{document}

@@ -1,0 +1,385 @@
+\documentclass[document.tex]{subfiles}
+
+\begin{document}
+
+\section{S6 - Programme Advanced Control}
+
+\subsection{Contenue}
+
+\figc{1}{144}
+
+\subsection{Rappel}
+
+\subsubsection{Critère de Nyquist simplifié : marge de gain et de phase}
+
+\textbf{Par diagramme de Bode : }
+$$\phi_m = \text{arg}(G_o(j\omega_{co}))+ \pi \; \longrightarrow \; |G_o(j\omega_{co})|=1 $$
+
+\figc{1}{145}
+
+\subsubsection{Critère de Nyquist simplifié}
+
+\figc{1}{146}
+\figc{1}{147}
+
+\subsubsection{Boucle ouverte pour le retour d'état}
+
+\figc{1}{148}
+
+\subsubsection{Robustesse du régulateur LQR (retour d'état)}
+
+\figc{1}{150}
+\figc{1}{149}
+
+$$d_{\text{crit}}= \underbrace{\text{min}}_{\omega} \; \text{dist}(\underbrace{-1}_{\text{point crit.}},L(j \omega)) $$
+
+Afin d'assurer une bonne \textbf{robustesse} : \\
+$\Rightarrow$ Avec synthèse \textbf{LQR} : $\longrightarrow d_{\text{crit}} = 1$
+
+\subsubsection{Régulation en correspondance LQR avec action intégrale}
+\figc{1}{151}
+
+\subsection{Observateur}
+
+\subsubsection{Motivation}
+
+\begin{enumerate}
+\item Le retour d'état nécessite la mesure de \textbf{toutes} les variables d'état
+\begin{enumerate}
+\item Cher et compliqué, car beaucoup de capteurs nécessaires
+\item Peut poser des problèmes de fiabilité dû au nombre de capteurs
+\item Parfois pas faisable s'il y a des variables d'état qui sont difficiles à mesurer
+\end{enumerate}
+\begin{itemize}
+\item Idée 1 : estimer les variables d'état manquantes, puis utiliser ces signaux estimés pour le retour d'état
+\item idée 2 : cet observateur/estimateur nécessite la connaissance d'un modèle du processus physique et intègre ce modèle
+\end{itemize}
+\item Il y a des applications où on dispose de plusieurs mesures bruitées, p.ex. IMU (Inertial Measurement Unit) avec accéléromètres 3 axes, gyroscope 3 axes, magnétomètres 3 axes, signaux GPS, etc.
+\begin{itemize}
+\item Idée 3 : un observateur permet de "consolider" toutes ces informations imparfaites, et de fournir une information consolidée plus précise et moins bruitée "sensor fusion".
+\end{itemize}
+\end{enumerate}
+
+$$\boxed{\begin{array}{c}
+\text{Il y a donc une vision \textbf{déterministe} d'un observateur, et une vision stochastique.}\\ \text{Dans le contexte \textbf{stochastique}, l'observateur est appelé aussi "\textbf{filtre de Kalman}"}
+\end{array}}$$
+
+\subsubsection{Exemple : Observateur pour monitorer des signaux difficilement mesurables}
+
+\figc{1}{153}
+
+\subsection{Observateur "trivial"}
+\subsubsection{Idée naïve : observateur "trivial"}
+
+\figc{1}{154}
+
+\subsubsection{Dynamique de l'erreur de l'observateur trivial}
+
+\figc{1}{155}
+
+\begin{itemize}
+\item La dynamique de l'erreur est indépendante du signal de commande u(t).
+\item $x_e(t) = e^{At}x_{e,0}$ : sous quelle condition l'observateur trivial converge ?
+\item Converge que si le processus est stable, i.e. si toutes les valeurs propres
+\end{itemize}
+
+\begin{center}
+\textit{\textbf{Il faut que les valeurs propres de la matrice $A$ soit négatif \\ $\longrightarrow$ Système stable !}}
+\end{center}
+
+\subsubsection{Points faibles de l'observateur trivial}
+
+\begin{itemize}
+\item Le signal de sortie mesuré $y(t)$ du processus n'est pas utilisé !
+\item On est complètement tributaire de la dynamique du processus, aucun moyen d'influencer le régime transitoire de l'observateur.
+\end{itemize}
+
+\textit{\textbf{$\Rightarrow$ Pour ces raisons l'observateur trivial n'est jamais utilisé !}}\\
+
+\textbf{Solution : }
+\begin{enumerate}
+\item Comparer ce que \textbf{l'on a} avec ce que \textbf{l'on veut} !
+\item Utiliser un \textbf{feedback} de l'erreur, c-à-d un \textbf{rebouclement} pour corriger le tir !
+\end{enumerate}
+
+\subsection{Observateur complet}
+\subsubsection{Structure de l'observateur complet}
+
+\figc{1}{156}
+
+\subsubsection{Dynamique de l'erreur de l'observateur complet}
+
+\figc{1}{157}
+
+\textbf{Comparaison retour d'état et observateur :}
+
+
+\begin{center}
+\begin{tabular}{|| l c l ||}
+\hline \hline
+\textbf{Retour d'état}	& : 	& $A_{\text{bf}}=A-B\overbrace{\boxed{K}}^{\text{vec. lig.}}$ \\[6pt]
+\textbf{Observateur}		& :	& $A_{\text{obs}}=A-\underbrace{\boxed{H}}_{\text{vec. col.}}C$ \\[18pt] \hline \hline
+\end{tabular}
+\end{center}
+
+
+$$\boxed{
+\begin{array}{c c c}
+\dot{x}_e(A-HC)x_e & \text{avec} & x_e = x - \hat{x}
+\end{array}
+}$$
+
+\begin{itemize}
+\item Pour le choix H = 0 on retombe sur l'observateur trivial !
+\item L'observateur converge si la matrice \underline{$A-HC$} est stable, c-à-d si les valeurs propres de \underline{$A_{\text{obs}} = A − HC$} ont toutes une partie réelle négative.
+\item Le gain \underline{$H$} de l'observateur est à déterminer : "\textbf{synthèse de l'observateur}". Le choix de \underline{$H$} détermine la dynamique de l'observateur.
+\item Le \textbf{placement de pôles} est \textbf{une} possibilité pour la synthèse de l'observateur.
+\end{itemize}
+
+\subsection{Dualité : synthèse retour d'état / synthèse observateur}
+
+\figc{1}{158}
+
+\begin{flushleft}
+\textbf{Interprétation stochastique} : \textit{\textbf{LQG} = \textbf{L}inear \textbf{Q}uadratic \textbf{G}aussian}
+\begin{itemize}
+\item \textbf{Q} : covariance du bruit de processus
+\item \textbf{R} : covariance du bruit de mesure gain optimal
+\item \textbf{H} de l'observateur pour minimiser la variance de l'erreur
+\end{itemize}
+\end{flushleft}
+
+\subsection{Condition observabilité}
+
+\subsubsection{Retrouver la condition initiale}
+
+\figc{1}{159}
+
+\subsubsection{Condition d'observabilité}
+
+$$
+\boxed{\text{rank}[P_o]=\text{rank} \begin{bmatrix} C \\ CA \\ \vdots \\ CA^{n-1} \end{bmatrix} = n}
+$$
+
+$$
+\boxed{\begin{array}{c}
+\text{Un système est \textbf{observable} si le \textbf{rang} de la \textbf{matrice d'observabilité est \textbf{\textit{n}}}} \\[6pt]
+ \Rightarrow \boxed{\text{rank}(P_o) = n} \\[6pt]
+\text{En \textbf{monovariable} (SISO) : si } \text{det}(P_o)\neq 0
+\end{array}} 
+$$
+
+\subsection{Décomposition de Kalman}
+
+\subsubsection{Réalisation minimale}
+
+Chaque \textbf{système LTI} peut se décomposer après un changement de variables en :
+\begin{itemize}
+\item Une partie qui est \textbf{commandable} et \textbf{observable}
+\item Une partie qui n'est \textbf{pas commandable}, mais \textbf{observable}
+\item Une partie qui est \textbf{pas observable} mais \textbf{commandable}
+\item Une partie qui est \textbf{ni commandable}, \textbf{ni observable}
+\end{itemize}
+
+Les parties non commandable et/ou non observable ne contribuent rien au comportement entrée-sortie; les variables d'état associées peuvent être écartées.\\
+
+On appelle une « \textbf{réalisation minimale} » d'une matrice de transfert une représentation dans l'espace d'état avec un nombre de variables d'état minimal.\\
+
+\textit{\textbf{\underline{Une telle réalisation minimale est commandable et observable !}}}
+
+\subsubsection{décomposition de Kalman}
+
+\figc{1}{160}
+
+\subsection{Exemple - observateur comme filtre complémentaire}
+
+\textbf{Navigation inertielle en utilisant un accéléromètre (inclinomètre) et un gyromètre}
+
+\figc{0.5}{161}
+
+\begin{enumerate}
+\item \textbf{L'accéléromètre} basé sur une masse sismique qui mesure la gravité (composante DC) et les composantes dynamiques de l'accélération.\\
+$\longrightarrow$ Le signal fourni y(t) n'est que fiable à \textbf{basse fréquence}.
+\item \textbf{Le gyromètre} mesure une vitesse de rotation u(t).\\
+Pour connaître l'angle il faudrait intégrer u(t), mais ceci risque de créer une dérive (instable).\\
+$\longrightarrow$ Le signal fourni u(t) n'est que fiable à \textbf{haute fréquence}.
+\end{enumerate}
+
+\subsubsection{Application : filtre complémentaire}
+
+$
+\begin{array}{l c l}
+U(s) & : & \text{gyromètre (vitesse)} \\
+Y(s) & : & \text{accéléromètre (inclinomètre)}\\
+\hat{Y}(s) & : & \text{information consolidée} \\
+\alpha & : & \text{angle d'inclinaison}\\[12pt]
+\end{array}
+$
+
+$$\boxed{
+\underbrace{F_1(s)}_{\text{HP filter}} \cdot \underbrace{\frac{1}{S}}_{\text{intégrateur}} \cdot \; U(s) + \underbrace{F_2(s)}_{\text{LP filter}} \cdot \; y(s) = \underbrace{\hat{y}(s)}_{\text{est. dyn. de }\alpha}
+}$$
+
+$$ \Rightarrow \boxed{F_1(s)} + \boxed{F_2(s)} = 1 \; \text{(filtre complémentaire)} $$
+\figc{1}{162}
+
+\subsubsection{Observateur pour processus « intégrateur pur »}
+
+\figc{1}{163}
+
+\subsubsection{Fonctions de transfert du filtre}
+
+\figc{1}{164}
+
+\subsection{Interprétation stochastique de l'observateur}
+
+\begin{enumerate}
+\item S'il y a \textbf{peu de bruit} sur la mesure $y(t$), et que je peux faire confiance, je peux choisir un \textbf{gain élevé} \underline{$H$} pour l'observateur.\\
+Ce \textbf{gain élevé} \underline{$H$} donne une \textbf{pulsation de coupure élevée} du filtre.
+\item D'autre part, si la mesure de $y(t)$ est \textbf{très bruitée}, et que je peux faire plus confiance au modèle, je peux choisir une valeur \textbf{faible pour le gain} \underline{$H$}.\\
+Dans ce cas, le filtre aura une \textbf{pulsation de coupure basse}.
+\end{enumerate}
+
+\figc{1}{165}
+
+\subsection{Principe de séparation}
+
+\subsubsection{Rappel}
+
+$$ \begin{array}{c c}
+\boxed{\dfrac{\frac{1}{s}}{1+\frac{H}{s}} = \dfrac{1}{s+H}} & \boxed{\dfrac{\frac{H}{s}}{1+\frac{H}{s}} = \dfrac{H}{s+H}} \\[18pt]
+\begin{cases} \dot{x} = Ax + Bu \\ y = Cx\end{cases} & \boxed{G(s) = C(sI-A)^{-1}B}
+\end{array} $$
+
+\subsubsection{Principe de séparation}
+
+$$
+\begin{bmatrix} \dot{x} \\ \dot{\tilde{x}} \end{bmatrix} = \begin{bmatrix} A - BK & BK \\ 0 & A-HC \end{bmatrix} \begin{bmatrix} x \\ \tilde{x} \end{bmatrix}
+$$
+
+\textbf{La matrice A en boucle fermée est bloc triangulaire :}
+$$
+\begin{array}{c}
+\text{det}\begin{bmatrix} sI - A + BK & - B K \\ 0 & sI - A + HC \end{bmatrix} = 0 \\[12pt]
+\underbrace{\text{det}(sI - A + BK)}_{\text{pôles du retour d'état}} \cdot \underbrace{\text{det}(sI - A + HC)}_{\text{pôles de l'observateur}}
+\end{array}
+$$
+
+\begin{flushleft}
+\begin{tabular}{|c|}
+\hline
+\textit{\textbf{Les pôles de la boucle fermée sont composés des pôles de la synthèse}}\\
+\textit{\textbf{du retour d'état et des pôles de la synthèse de l'observateur !}} \\ \hline
+\end{tabular}
+\end{flushleft}
+
+\subsubsection{Explication}
+\begin{conditions}
+	Processus & $\dot{x} = A x + B u$ \\
+	Feedback & $u = -K\hat{x}$\\
+	Observateur & $\dot{\hat{x}}= A \hat{x} + B u + HC(x-\hat{x})$
+\end{conditions}
+
+$$
+ \begin{array}{l r}
+ x_{tot} = \left. \begin{bmatrix} x \\ \hat{x}\end{bmatrix} \right \} 2\cdot n & \begin{cases} \dot{x}=Ax - BK\hat{x} \\ \dot{\hat{x}} = A\hat{x + Bu + HC(x-\hat{x})} \end{cases}
+ \end{array}
+$$
+
+$$
+\begin{array}{l c r}
+\dot{x}_{tot} = A_{tot} & \text{avec} & A_{tot} = \begin{bmatrix} A & -BK \\ HC & A-BK-HC \end{bmatrix}
+\end{array} 
+$$ 
+
+on peut ensuite calculer les valeurs propre de $A_{tot}$ $\longrightarrow$ pôles du systèmes \\
+
+\textbf{Alternative : } 
+$$ \begin{array}{l r}
+ x_e = x-\hat{x} \Rightarrow \hat{x} = x - x_e 
+& \rightarrow \text{remplacer le } \hat{x} \text{ par } x_e \\[12pt]
+ \Rightarrow x_{tot} = \begin{bmatrix} x  \\ x_e\end{bmatrix} & \Rightarrow A_{tot} = \underbrace{\begin{bmatrix}
+A-BK & BK \\ 0 & A-HC\end{bmatrix}}_{\text{Matrice Triangulaire}}
+\end{array} $$
+
+Les v\textbf{aleurs propres} de \underline{$A_{tot}$} sont les \textbf{valeurs propres} de \underline{$A-BK$} et les \textbf{valeurs propres} de \underline{$A-HC$}
+
+
+\subsubsection{Remarques importantes}
+
+\begin{itemize}
+\item Le principe de séparation n'est que valable si le modèle est parfaitement connu.
+\item  réglage par \textbf{retour d'état LQR} est \textbf{robuste} si toutes les variables d'état sont mesurées (pas besoin d'observateur).\\
+Marges de stabilité : $\boxed{\phi_m > 60 \degres, A_m = [0.5 \ldots  \infty]}$
+\item En utilisant un observateur, \textbf{cette propriété de robustesse est perdue}. La méthode \textbf{LTR} essaye de récupérer cette propriété, mais au dépens d'un gain $H$ de l'observateur important (amplification du bruit).
+\item  Il y a des systèmes à régler \textbf{intrinsèquement} difficile à régler, où \textbf{aucune} méthode de synthèse fournit une bonne robustesse !\\
+Exemple : systèmes avec déphasage nonminimal (zéros positifs)
+\end{itemize}
+
+\subsection{« Model order reduction »}
+
+\figc{1}{175}
+
+\subsection{LTR : Loop Transfer Recovery}
+
+\figc{1}{173}
+
+LTR (\textit{Loop Transfer Recovery}) est une méthode de choix des pondérations $Q$ et $R$ de l'observateur, permettant de récupérer la bonne robustesse du retour d'état :
+$$ \boxed{\phi_m > 60 \degres,\; A_m = [0.5 \; \ldots \; \infty]} $$
+
+\begin{center}
+\begin{tabular}{l l}
+$Q = \rho B B^T$ et $R=1$ & $\rho \longrightarrow \infty$ : Observateur rapide
+\end{tabular}
+\end{center}
+
+
+\textbf{\underline{Attention :} Ne fonctionne que pour les système à déphasage minimale !} \\
+
+\textbf{Système à déphasage minimal :}\\
+$\Leftrightarrow$ \textbf{Pas de zéro} dans le \textbf{demi-plan droite}.
+
+\textbf{Boucle ouverte :}
+$$ \underline{\hat{G}_0(s)=C(sI-A)^{-1}B\cdot K(sI-A+BK + HC)^{-1}H} $$
+
+
+\subsubsection{lieu de Nyquist en fonction de $\rho$}
+
+\figc{1}{176}
+
+\subsection{Résumé de la synthèse LQR - LQG - LTR }
+
+\begin{itemize}
+ \item Basé sur un modèle dans l'espace d'état \textbf{suffisamment précis} \\ (nécessite une bonne modélisation plus identification des paramètres)
+ \item Condition nécessaire : le système doit être \textbf{suffisamment bien commandable et observable}
+ \item Basé sur un critère d'optimisation \textbf{quadratique} \\ (il existe bien d'autres critères)
+ \item On "joue" avec les pondérations $Q$ et $R$ du critère, pas directement avec les paramètres du régulateur. \\ En règle générale, plusieurs itérations sont nécessaires.
+ \item Méthode assez systématique et bien documentable (contrairement au loop shaping manuel (p.ex. utilitaire Matlab sisotool), où on bidouille les paramètres du régulateur).
+ \item La méthode garantit que la \textbf{boucle fermée nominale} est stable ! 
+ \item La méthode fonctionne également pour les systèmes multivariables(MIMO)
+\end{itemize}
+
+\textbf{La méthode LQR / LQG / LTR n'apporte rien pour : }
+\begin{itemize}
+\item Des systèmes monovariables de faible ordre (p.ex. ordre 2), car on peut aussi bien faire avec un PID classique 
+\item Des systèmes mal connus ayant beaucoup d'incertitudes de modélisation
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
