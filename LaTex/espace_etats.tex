@@ -25,6 +25,11 @@ $$T=\begin{bmatrix}
 $$\boxed{\begin{split}
 \tilde{A} &= T^{-1}AT &\qquad \tilde{B}&=T^{-1}B\\
 \tilde{C} &= CT&\qquad \tilde{D}&=D\end{split}}$$
+
+$$\tilde{A} = \begin{bmatrix}\tilde{a}_{11} &0 & 0\\0 & \tilde{a}_{22} & 0\\0 & 0 & \tilde{a}_{33}\end{bmatrix} \qquad \tilde{B}=\begin{bmatrix}\tilde{b}_{1}\\\tilde{b}_2\\\tilde{b}_3\end{bmatrix}$$
+$$\tilde{C} = \begin{bmatrix}\tilde{c}_1 & \tilde{c}_2 & \tilde{c}_3\end{bmatrix}  \qquad \tilde{D}=1$$
+
+
 \subsection{$A,B,C,D \longrightarrow G$}
 $$G(s)=C(sI-A)^{-1}B+D$$
 $$G(z)=C_n(zI-A_n)^{-1}B_n+D_n$$
@@ -90,7 +95,9 @@ C_1 & C_2
 \centering
 \includegraphics[scale=1,page=4]{drwg_0.pdf}
 \end{figure}
+\begin{small}
 $$A_{tot}=\begin{bmatrix} A_1 - B_1D_2(I-D_1D_2)^{-1}C_1 & -B_1(C_2-D_2D_1C_2)\\B_2(I-D_1D_2)^{-1}C_1 & A_2-B_2(I-D_1D_2)^{-1}D_1C_2\end{bmatrix}$$
+\end{small}
 
 $$B_{tot}=\begin{bmatrix}B_1-B_1D_2ND_1\\B_2ND_1\end{bmatrix}$$
 
@@ -118,7 +125,8 @@ Faire une permutation avec $T$ ne change pas la commandabilité du système. La 
 \subsection{Observabilité}
 $$\boxed{P_0=\begin{bmatrix}C\\CA\\CA^2\\\vdots\\CA^{n-1}\end{bmatrix}}$$
 $$\boxed{\text{rang}(P_0)=n\longrightarrow\text{Observable}}$$
-En monosortie on peut utiliser $\det(P_0)\neq 0\longrightarrow \text{Observable}$
+En monosortie on peut utiliser $\det(P_0)\neq 0\longrightarrow \text{Observable}$.\\
+Si le système est observable, on peut utiliser l'observateur trivial $H=0$
 \subsection{Trajectoire}
 \subsection{Système numérique}
 Soit un système numérique avec les matrices

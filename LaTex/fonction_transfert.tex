@@ -36,12 +36,37 @@ $$
 $$
 
 \subsection{Fonction de base}
-
-<img src="FiguresTypora/image-20220519101441493.png" alt="image-20220519101441493" style="zoom: 33%;" />
-le 'gang' cours 12 page 7
-
-<img src="FiguresTypora/image-20220602091113238.png" alt="image-20220602091113238" style="zoom:33%;" />
-allure typique cours 12 page 9
+\subsubsection{Sensibilité}
+\begin{figure}[H]
+\centering
+\includegraphics[width=5.00cm]{img_8.png}
+\end{figure}
+$$\frac{E(s)}{R(s)}=\frac{1}{1+P(s)C(s)}=\frac{1}{1+L(s)}=S(s)$$
+La sensibilité va toujours tendre vers \SI{0}{\decibel} à haute fréquence
+\subsubsection{•}
+\begin{figure}[H]
+\centering
+\includegraphics[width=5.00cm]{img_9.png}
+\end{figure}
+$$\frac{U(s)}{R(s)}=\frac{C(s)}{1+P(s)C(s)}=C(s)S(s)$$
+\subsubsection{Sensibilité complémentaire}
+\begin{figure}[H]
+\centering
+\includegraphics[width=5.00cm]{img_10.png}
+\end{figure}
+$$\frac{Y(s)}{R(s)}=\frac{P(s)C(s)}{1+P(s)C(s)}=\frac{L(s)}{1+L(s)}=T(s)=1-S(s)$$
+La sensibilité complémentaire vaut toujours \SI{0}{\decibel} à basse fréquence.
+\subsubsection{•}
+\begin{figure}[H]
+\centering
+\includegraphics[width=5.00cm]{img_11.png}
+\end{figure}
+$$\frac{Y(s)}{V(s)}=\frac{P(s)}{1+P(s)C(s)}=P(s)S(s)$$
+\subsubsection{Boucle ouverte}
+$$L(s)$$
+La boucle ouverte a un gain qui augmente à basse fréquence, et qui diminue à haute fréquence.
+\subsubsection{Remarques}
+La valeur à basse fréquence du système à régler $P(s)$ se retrouve en $\frac{1}{x}$ ($\times (-1)$ en dB) sur le Bode du $|C(s)S(s)|$
 
 \subsection{Distance critique}
 
