@@ -37,8 +37,14 @@ Plus le pic de la boucle ouverte sera faible plus on aura de possibilité de tra
 $$||\Delta_m||_{\infty} < \frac{1}{||\frac{P_0C}{1+P_0C}||_{\infty}}= \frac{1}{||T||_{\infty}}$$
 Bruit sur un capteur
 
-\subsection{Optimisation général}
+\subsection{Optimisation générale}
 
 Trouver un régulateur $C(s)$ qui tolère un maximum d'incertitude $||\Delta||_{\infty}$ donc qui minimise le pic en boucle ouverte 
+
+\subsection{Création du système}
+\begin{itemize}
+\item Manipuler le schéma pour que chaque variable qui possède une incertitude apparaisse une seule fois (et qu'elle ne soit pas mélangée avec une autre)
+\item Pour une perturbation multiplicative, si la valeur est $\frac{1}{L}$, alors la perturbation s'écrit $-\Delta L$
+\end{itemize}
 
 \end{document}

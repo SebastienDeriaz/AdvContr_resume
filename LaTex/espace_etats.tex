@@ -206,6 +206,12 @@ Les pôles de l'observateur dans ce cas peuvent se baser sur le dénominateur de
 \subsubsection{Trajectoire}
 $$\boxed{\hat{x}[k+1]=Ax[k] + Bu[k] + H\left(y[k] - \hat{y}[k]\right)}$$
 
+\subsection{Règle de Mason}
+$$G(s)=\frac{G_a(s)}{1\textcolor{OrangeRed}{+}G_o(s)}$$
+Chaîne d'action sur 1+boucle ouverte. A noter que le signe \textcolor{OrangeRed}{+} est l'inverse de la valeur du sommateur en début de système. La boucle ouverte $G_o(s)$ est la multiplication de tous les blocs (y compris intégrateurs) dans toute la boucle de contre-réaction. La chaîne d'action $G_a(s)$ est constituée des blocs qui permettent d'aller d'un point $A$ à un point $B$
+
+
+
 
 
 
